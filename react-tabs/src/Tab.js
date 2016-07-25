@@ -5,23 +5,35 @@ var React = require('react');
 
 var Tab = React.createClass({
 
-	propTypes: {
-
-	},
-
 	getInitialState: function () {
 		return {
-			id: this.props.id,
-			name: this.props.name
+			tabIndex: this.props.tabIndex,
+			tab: this.props.tab,
+			active: this.props.active
 		}
 	},
 
-	switchTabPanel: function () {
-		
+	componentWillReceiveProps: function (nextProps) {
+		this.setState({
+			active: nextProps.active
+		});
+	},
+
+	switch: function () {
+		console.log(this.state.tabIndex)
+		this.props.switch(this.state.tabIndex);
 	},
 
 	render: function () {
-		return <a id={this.props.id} onClick={this.switchTabPanel}>{this.state.name}</a>
+		return (
+			<a
+				id={this.props.tabIndex}
+				className={this.state.active ? 'active' : ''}
+				onClick={this.switch}
+			>
+				{this.state.tab}
+			</a>
+		)
 	}
 });
 
