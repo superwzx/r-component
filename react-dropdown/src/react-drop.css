@@ -1,0 +1,38 @@
+html,body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+.dropdown-btn {
+    display: block;
+    width: 130px;
+    height: 30px;
+    padding: 0 10px;
+    line-height: 30px;
+    color: #999;
+    font-size: 14px;
+    background-color: white;
+    border: 1px solid #ccc;
+    text-decoration: none;
+}
+.dropdown-list {
+    display: none;
+    width: 150px;
+    height: 200px;
+    border: 1px solid #ccc;
+    overflow-y: auto;
+}
+.dropdown-option {
+    display: block;
+    width: 130px;
+    /*height: 20px;*/
+    padding: 5px 10px;
+    line-height: 20px;
+    color: #999;
+    font-size: 14px;
+    text-decoration: none;
+}
+.dropdown-active .dropdown-list {
+    display: block;
+}
