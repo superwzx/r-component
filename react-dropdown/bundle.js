@@ -49,29 +49,10 @@
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(33);
 	var Drop = __webpack_require__(172);
-	var DropList = __webpack_require__(174);
+	// var DropList = require('./src/DropList');
 
-	ReactDOM.render(React.createElement(
-	    Drop,
-	    { currentVal: '' },
-	    React.createElement(
-	        DropList,
-	        null,
-	        '我是测试1'
-	    ),
-	    React.createElement(
-	        DropList,
-	        null,
-	        '我是测试2'
-	    ),
-	    React.createElement(
-	        DropList,
-	        null,
-	        '我是测试3'
-	    )
-	), document.getElementById('haha')
-	// emsfl
-	);
+	var LIST = [{ value: '我是测试1' }, { value: '我是测试2' }, { value: '我是测试3' }];
+	ReactDOM.render(React.createElement(Drop, { currentVal: '', list: LIST }), document.getElementById('haha'));
 
 /***/ },
 /* 1 */
@@ -21114,6 +21095,7 @@
 	var React = __webpack_require__(1);
 
 	var DropBtn = __webpack_require__(173);
+	var DropList = __webpack_require__(174);
 
 	var Drop = React.createClass({
 		displayName: 'Drop',
@@ -21121,21 +21103,9 @@
 		getInitialState: function getInitialState() {
 			return {
 				currentVal: this.props.currentVal ? this.props.currentVal : '',
-				showFlag: false
+				showFlag: false,
+				filterText: ''
 			};
-		},
-		getDropList: function getDropList() {
-			var newChildren = [];
-
-			var currentVal = this.state.currentVal;
-			var showFlag = this.state.showFlag;
-
-			React.Children.forEach(this.props.children, function (child) {
-				// newChildren.push(React.cloneElement(child,{switchOption: this.switchOption,switchList: this.switchList}));
-				newChildren.push(React.cloneElement(child, { switchOption: this.switchOption }));
-			}.bind(this));
-
-			return newChildren;
 		},
 		componentWillMount: function componentWillMount() {
 			document.body.addEventListener('click', function (e) {
@@ -21150,25 +21120,20 @@
 				}
 			}.bind(this));
 		},
-		// switchList: function () {
-		// 	this.setState({
-		// 		showFlag: !this.state.showFlag
-		// 	});
-		// },
-		switchOption: function switchOption(val) {
+		handleUserInput: function handleUserInput(val) {
 			this.setState({
+				filterText: val,
 				currentVal: val
 			});
 		},
+		switchOption: function switchOption(val) {
+			this.setState({
+				currentVal: val,
+				filterText: ''
+			});
+		},
 		render: function render() {
-			var dropLists = this.getDropList();
-			var contents = [
-			// <DropBtn currentVal={this.state.currentVal} switchList={this.switchList}></DropBtn>
-			React.createElement(DropBtn, { currentVal: this.state.currentVal }), React.createElement(
-				'div',
-				{ className: 'dropdown-list' },
-				dropLists
-			)];
+			var contents = [React.createElement(DropBtn, { currentVal: this.state.currentVal, onUserInput: this.handleUserInput }), React.createElement(DropList, { list: this.props.list, filterText: this.state.filterText, switchOption: this.switchOption })];
 
 			return React.createElement(
 				'div',
@@ -21191,20 +21156,14 @@
 	var DropBtn = React.createClass({
 		displayName: "DropBtn",
 
-
-		getInitialState: function getInitialState() {
-			return {
-				currentVal: this.props.currentVal
-			};
+		handleChange: function handleChange() {
+			this.props.onUserInput(this.refs.filterText.value);
 		},
 		render: function render() {
-			return (
-				// <a href="javascript:;" className="dropdown-btn" onClick={this.props.switchList}>{this.props.currentVal}</a>
-				React.createElement(
-					"a",
-					{ href: "javascript:;", className: "dropdown-btn" },
-					this.props.currentVal
-				)
+			return React.createElement(
+				"a",
+				{ href: "javascript:;", className: "dropdown-btn" },
+				React.createElement("input", { type: "text", value: this.props.currentVal, ref: "filterText", onChange: this.handleChange })
 			);
 		}
 	});
@@ -21231,13 +21190,23 @@
 		selectOption: function selectOption(e) {
 			var val = e.target.textContent;
 			this.props.switchOption(val);
-			// this.props.switchList();
 		},
 		render: function render() {
+			var arr = [];
+			this.props.list.forEach(function (list) {
+				if (list.value.indexOf(this.props.filterText) === -1) {
+					return;
+				}
+				arr.push(React.createElement(
+					"a",
+					{ href: "javascript:;", className: "dropdown-option", key: list.value, onClick: this.selectOption },
+					list.value
+				));
+			}.bind(this));
 			return React.createElement(
-				"a",
-				{ href: "javascript:;", className: "dropdown-option", onClick: this.selectOption },
-				this.props.children
+				"div",
+				{ className: "dropdown-list" },
+				arr
 			);
 		}
 	});

@@ -12,12 +12,18 @@
 		selectOption: function (e) {
 			var val = e.target.textContent;
 			this.props.switchOption(val);
-			// this.props.switchList();
 		},
 		render: function () {
-			return (
-				<a href="javascript:;" className="dropdown-option" onClick={this.selectOption}>{this.props.children}</a>
-			)
+			var arr = [];
+	        this.props.list.forEach(function (list) {
+	            if(list.value.indexOf(this.props.filterText) === -1) {
+	                return;
+	            }
+	            arr.push(<a href="javascript:;" className="dropdown-option" key={list.value} onClick={this.selectOption}>{list.value}</a>);
+	        }.bind(this));
+	        return (
+	            <div className="dropdown-list">{arr}</div>
+	        )
 		}
 	})
 

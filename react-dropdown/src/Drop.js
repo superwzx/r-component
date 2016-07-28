@@ -4,26 +4,15 @@
 var React = require('react');
 
 var DropBtn = require('./DropBtn');
+var DropList = require('./DropList');
 
 var Drop = React.createClass({
 	getInitialState: function () {
 		return {
 			currentVal: this.props.currentVal?this.props.currentVal:'',
-			showFlag: false
+			showFlag: false,
+			filterText: ''
 		}
-	},
-	getDropList: function () {
-		var newChildren = [];
-
-		var currentVal = this.state.currentVal;
-		var showFlag = this.state.showFlag;
-
-		React.Children.forEach(this.props.children, function (child) {
-			// newChildren.push(React.cloneElement(child,{switchOption: this.switchOption,switchList: this.switchList}));
-			newChildren.push(React.cloneElement(child,{switchOption: this.switchOption}));
-		}.bind(this));
-
-		return newChildren;
 	},
 	componentWillMount: function () {
 		document.body.addEventListener('click', function (e) {
@@ -38,27 +27,25 @@ var Drop = React.createClass({
 			}
 		}.bind(this));
 	},
-	// switchList: function () {
-	// 	this.setState({
-	// 		showFlag: !this.state.showFlag
-	// 	});
-	// },
-	switchOption: function (val) {
+	handleUserInput: function (val) {
 		this.setState({
+			filterText: val,
 			currentVal: val
 		});
 	},
+	switchOption: function (val) {
+		this.setState({
+			currentVal: val,
+			filterText: ''
+		});
+	},
 	render: function () {
-		var dropLists = this.getDropList();
 		var contents = [
 			(
-				// <DropBtn currentVal={this.state.currentVal} switchList={this.switchList}></DropBtn>
-				<DropBtn currentVal={this.state.currentVal}></DropBtn>
+				<DropBtn currentVal={this.state.currentVal} onUserInput={this.handleUserInput}></DropBtn>
 			),
 			(
-				<div className="dropdown-list">
-					{dropLists}
-				</div>
+				<DropList list={this.props.list} filterText={this.state.filterText} switchOption={this.switchOption}></DropList>
 			)
 		];
 

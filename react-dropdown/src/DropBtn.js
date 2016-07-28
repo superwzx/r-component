@@ -4,16 +4,16 @@ var React = require('react');
 
 
 var DropBtn = React.createClass({
-
-	getInitialState: function () {
-		return {
-			currentVal: this.props.currentVal
-		}
-	},
+	handleChange: function () {
+        this.props.onUserInput(
+            this.refs.filterText.value
+        );
+    },
 	render: function () {
 		return (
-			// <a href="javascript:;" className="dropdown-btn" onClick={this.props.switchList}>{this.props.currentVal}</a>
-			<a href="javascript:;" className="dropdown-btn">{this.props.currentVal}</a>
+			<a href="javascript:;" className="dropdown-btn">
+				<input type="text" value = {this.props.currentVal} ref="filterText" onChange={this.handleChange} />
+			</a>
 		)
 	}
 });
