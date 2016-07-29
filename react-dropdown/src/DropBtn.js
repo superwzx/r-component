@@ -13,6 +13,7 @@ var DropBtn = React.createClass({
 		return (
 			<a href="javascript:;" className="dropdown-btn">
 				<input type="text" value = {this.props.currentVal} ref="filterText" onChange={this.handleChange} />
+				<i></i>
 			</a>
 		)
 	}

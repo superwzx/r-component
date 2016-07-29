@@ -16,16 +16,16 @@ var Drop = React.createClass({
 	},
 	componentWillMount: function () {
 		document.body.addEventListener('click', function (e) {
-			if(e.target.querySelectorAll('div.dropdown-wrap').length) {
-				this.setState({
-					showFlag: false
-				});
-			} else {
+			if(this.refs.hahaha.querySelector('input') == e.target) {
 				this.setState({
 					showFlag: !this.state.showFlag
 				});
+			} else {
+				this.setState({
+					showFlag: false
+				});
 			}
-		}.bind(this));
+		}.bind(this),false);
 	},
 	handleUserInput: function (val) {
 		this.setState({
@@ -50,7 +50,7 @@ var Drop = React.createClass({
 		];
 
 		return (
-			<div className={this.state.showFlag ? 'dropdown-wrap dropdown-active' : 'dropdown-wrap'}>
+			<div ref="hahaha" className={this.state.showFlag ? 'dropdown-wrap dropdown-active' : 'dropdown-wrap'}>
 				{contents}
 			</div>
 		)

@@ -52,7 +52,12 @@
 	// var DropList = require('./src/DropList');
 
 	var LIST = [{ value: '我是测试1' }, { value: '我是测试2' }, { value: '我是测试3' }];
-	ReactDOM.render(React.createElement(Drop, { currentVal: '', list: LIST }), document.getElementById('haha'));
+	ReactDOM.render(React.createElement(
+	    'div',
+	    null,
+	    React.createElement(Drop, { currentVal: '', list: LIST }),
+	    React.createElement(Drop, { currentVal: '', list: LIST })
+	), document.getElementById('haha'));
 
 /***/ },
 /* 1 */
@@ -21109,16 +21114,16 @@
 		},
 		componentWillMount: function componentWillMount() {
 			document.body.addEventListener('click', function (e) {
-				if (e.target.querySelectorAll('div.dropdown-wrap').length) {
-					this.setState({
-						showFlag: false
-					});
-				} else {
+				if (this.refs.hahaha.querySelector('input') == e.target) {
 					this.setState({
 						showFlag: !this.state.showFlag
 					});
+				} else {
+					this.setState({
+						showFlag: false
+					});
 				}
-			}.bind(this));
+			}.bind(this), false);
 		},
 		handleUserInput: function handleUserInput(val) {
 			this.setState({
@@ -21137,7 +21142,7 @@
 
 			return React.createElement(
 				'div',
-				{ className: this.state.showFlag ? 'dropdown-wrap dropdown-active' : 'dropdown-wrap' },
+				{ ref: 'hahaha', className: this.state.showFlag ? 'dropdown-wrap dropdown-active' : 'dropdown-wrap' },
 				contents
 			);
 		}
@@ -21163,7 +21168,8 @@
 			return React.createElement(
 				"a",
 				{ href: "javascript:;", className: "dropdown-btn" },
-				React.createElement("input", { type: "text", value: this.props.currentVal, ref: "filterText", onChange: this.handleChange })
+				React.createElement("input", { type: "text", value: this.props.currentVal, ref: "filterText", onChange: this.handleChange }),
+				React.createElement("i", null)
 			);
 		}
 	});

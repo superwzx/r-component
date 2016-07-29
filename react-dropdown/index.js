@@ -11,7 +11,10 @@ var LIST = [
 ]                                                                                                                                                                                                        
 ReactDOM.render(
 	(
-        <Drop currentVal="" list={LIST}></Drop>
+        <div>
+            <Drop currentVal="" list={LIST}></Drop>
+            <Drop currentVal="" list={LIST}></Drop>
+        </div>
     ),
 	document.getElementById('haha')
 );
