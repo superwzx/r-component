@@ -48,15 +48,32 @@
 
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(33);
-	var Drop = __webpack_require__(172);
-	// var DropList = require('./src/DropList');
+	var Linkage = __webpack_require__(172);
 
-	var LIST = [{ value: '我是测试1' }, { value: '我是测试2' }, { value: '我是测试3' }];
+	var DATA = {
+	    0: [{
+	        label: '省',
+	        data: [{ id: 1, value: '安徽' }, { id: 2, value: '江苏' }]
+	    }],
+	    1: [{
+	        label: '市',
+	        pid: 1,
+	        data: [{ id: 10, value: '蚌埠' }, { id: 11, value: '巢湖' }, { id: 12, value: '太湖' }]
+	    }, {
+	        label: '市',
+	        pid: 2,
+	        data: [{ id: 20, value: '你猜1' }, { id: 21, value: '你猜2' }, { id: 22, value: '你猜3' }]
+	    }],
+	    2: [{
+	        label: '区',
+	        pid: 10,
+	        data: [{ id: 100, value: '什么区' }]
+	    }]
+	};
 	ReactDOM.render(React.createElement(
 	    'div',
 	    null,
-	    React.createElement(Drop, { currentVal: '', list: LIST }),
-	    React.createElement(Drop, { currentVal: '', list: LIST })
+	    React.createElement(Linkage, { data: DATA, count: 3 })
 	), document.getElementById('haha'));
 
 /***/ },
@@ -21098,16 +21115,92 @@
 	'use strict';
 
 	var React = __webpack_require__(1);
+	var Drop = __webpack_require__(173);
+	var Linkage = React.createClass({
+	    displayName: 'Linkage',
 
-	var DropBtn = __webpack_require__(173);
-	var DropList = __webpack_require__(174);
+	    getInitialState: function getInitialState() {
+	        return {
+	            items: [],
+	            choose: [],
+	            currentVal: []
+	        };
+	    },
+	    componentWillMount: function componentWillMount() {
+	        var num = this.props.count,
+	            initArr = [];
+	        for (var i = 0; i < num; i++) {
+	            i == 0 ? initArr.push(this.props.data[i][0]) : initArr.push({ data: [] });
+	        }
+	        this.setState({
+	            items: initArr
+	        });
+	    },
+	    _handleChange: function _handleChange(index, id, val) {
+	        var choose = this.state.choose,
+	            newItems = this.state.items,
+	            currentVal = this.state.currentVal,
+	            num = this.props.count;
+	        if (choose[+index] == id) return;
+	        if (id) {
+	            choose[+index] = +id;
+	            currentVal[+index] = val;
+	            if (this.props.data[+index + 1]) {
+	                // 过滤和选项匹配的数组
+	                var newData = this.props.data[+index + 1].filter(function (item) {
+	                    return item.pid == +id;
+	                });
+	            }
+	        }
+	        //更新items数组
+	        if (+index + 1 < num) {
+	            if (newData != null && newData.length > 0) {
+	                newItems.splice(+index + 1, 1, newData[0]);
+	            } else {
+	                newItems.splice(+index + 1, 1, { data: [] });
+	            }
+	        }
+	        for (var i = +index + 1; i < num; i++) {
+	            currentVal[i] = '';
+	        }
+	        this.setState({
+	            items: newItems,
+	            choose: choose,
+	            currentVal: currentVal
+	        });
+	    },
+	    render: function render() {
+	        var arr = [];
+	        this.state.items.map(function (item, i) {
+	            arr.push(React.createElement(Drop, { key: i, keyIndex: i, currentVal: this.state.currentVal, list: item.data, getSubList: this._handleChange }));
+	        }.bind(this));
+	        return React.createElement(
+	            'div',
+	            null,
+	            arr
+	        );
+	    }
+	});
+
+	module.exports = Linkage;
+
+/***/ },
+/* 173 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+
+	var DropBtn = __webpack_require__(174);
+	var DropList = __webpack_require__(175);
 
 	var Drop = React.createClass({
 		displayName: 'Drop',
 
 		getInitialState: function getInitialState() {
 			return {
-				currentVal: this.props.currentVal ? this.props.currentVal : '',
+				currentVal: '',
 				showFlag: false,
 				filterText: ''
 			};
@@ -21125,20 +21218,49 @@
 				}
 			}.bind(this), false);
 		},
+		// 下拉联动时更新input里面的值
+		componentWillReceiveProps: function componentWillReceiveProps() {
+			this.setState({
+				currentVal: this.props.currentVal[this.props.keyIndex] ? this.props.currentVal[this.props.keyIndex] : ''
+			});
+		},
+		// 处理用户输入list删选
 		handleUserInput: function handleUserInput(val) {
 			this.setState({
 				filterText: val,
 				currentVal: val
 			});
 		},
-		switchOption: function switchOption(val) {
+		// 处理下拉列表点击状态更新
+		switchOption: function switchOption(val, id) {
 			this.setState({
 				currentVal: val,
 				filterText: ''
 			});
 		},
+		clearInput: function clearInput(val) {
+			var newData = this.props.list.filter(function (item) {
+				return item.value == val;
+			});
+			if (newData != null && newData.length > 0) {
+				this.setState({
+					currentVal: val,
+					filterText: ''
+				});
+				this.props.getSubList(this.props.keyIndex, newData[0].id, val);
+			} else {
+				this.setState({
+					currentVal: '',
+					filterText: ''
+				});
+				this.props.getSubList(this.props.keyIndex, '', '');
+			}
+		},
+		handleList: function handleList(index, id, val) {
+			this.props.getSubList(index, id, val);
+		},
 		render: function render() {
-			var contents = [React.createElement(DropBtn, { currentVal: this.state.currentVal, onUserInput: this.handleUserInput }), React.createElement(DropList, { list: this.props.list, filterText: this.state.filterText, switchOption: this.switchOption })];
+			var contents = [React.createElement(DropBtn, { currentVal: this.state.currentVal, list: this.props.list, onUserInput: this.handleUserInput, onBlurInput: this.clearInput }), React.createElement(DropList, { list: this.props.list, filterText: this.state.filterText, switchOption: this.switchOption, getSubList: this.handleList, keyIndex: this.props.keyIndex })];
 
 			return React.createElement(
 				'div',
@@ -21151,7 +21273,7 @@
 	module.exports = Drop;
 
 /***/ },
-/* 173 */
+/* 174 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -21164,11 +21286,15 @@
 		handleChange: function handleChange() {
 			this.props.onUserInput(this.refs.filterText.value);
 		},
+		clearInput: function clearInput() {
+			var val = this.refs.filterText.value;
+			this.props.onBlurInput(val);
+		},
 		render: function render() {
 			return React.createElement(
 				"a",
 				{ href: "javascript:;", className: "dropdown-btn" },
-				React.createElement("input", { type: "text", value: this.props.currentVal, ref: "filterText", onChange: this.handleChange }),
+				React.createElement("input", { type: "text", value: this.props.currentVal, ref: "filterText", onChange: this.handleChange, onBlur: this.clearInput }),
 				React.createElement("i", null)
 			);
 		}
@@ -21177,15 +21303,15 @@
 	module.exports = DropBtn;
 
 /***/ },
-/* 174 */
+/* 175 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	var React = __webpack_require__(1);
 
 	var DropList = React.createClass({
-		displayName: "DropList",
+		displayName: 'DropList',
 
 
 		getInitialState: function getInitialState() {
@@ -21194,8 +21320,11 @@
 			};
 		},
 		selectOption: function selectOption(e) {
-			var val = e.target.textContent;
+			var val = e.target.textContent,
+			    index = e.target.getAttribute('data-index'),
+			    id = e.target.getAttribute('data-id');
 			this.props.switchOption(val);
+			this.props.getSubList(index, id, val);
 		},
 		render: function render() {
 			var arr = [];
@@ -21204,14 +21333,14 @@
 					return;
 				}
 				arr.push(React.createElement(
-					"a",
-					{ href: "javascript:;", className: "dropdown-option", key: list.value, onClick: this.selectOption },
+					'a',
+					{ href: 'javascript:;', className: 'dropdown-option', key: list.value, 'data-index': this.props.keyIndex, 'data-id': list.id, onClick: this.selectOption },
 					list.value
 				));
 			}.bind(this));
 			return React.createElement(
-				"div",
-				{ className: "dropdown-list" },
+				'div',
+				{ className: 'dropdown-list' },
 				arr
 			);
 		}
