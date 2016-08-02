@@ -6,13 +6,13 @@
 
 		getInitialState: function () {
 			return {
-				list: this.props.panels
+				//tabIndex: this.props.currentIndex
 			}
 		},
 
 		render: function () {
 			return (
-				<div>
+				<div className={this.props.tabIndex == this.props.currentIndex ? 'active' : ''}>
 					{this.props.children}
 				</div>
 			)
