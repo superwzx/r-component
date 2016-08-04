@@ -8,7 +8,8 @@ var DATA = {
             label: '省',
             data: [
                 {id:1, value: '安徽'},
-                {id:2, value: '江苏'}
+                {id:2, value: '江苏'},
+                {id:3, value: '安庆'}
             ]
         }
     ],
