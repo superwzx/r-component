@@ -8,7 +8,8 @@ var Drop = React.createClass({
 		return {
 			currentVal: '',
 			showFlag: false,
-			filterText: ''
+			filterText: '',
+			listIndex: ''
 		}
 	},
 	componentWillMount: function () {
@@ -38,7 +39,7 @@ var Drop = React.createClass({
 		});
 	},
 	// 处理下拉列表点击状态更新
-	switchOption: function (val,id) {
+	switchOption: function (val) {
 		this.setState({
 			currentVal: val,
 			filterText: ''
@@ -62,16 +63,36 @@ var Drop = React.createClass({
 			this.props.getSubList(this.props.keyIndex,'','');
 		}
 	},
-	handleList: function (index,id,val) {
-		this.props.getSubList(index,id,val);
+	handleKey: function (index) {
+		var ind = (arguments[0]!=='')?+arguments[0]:+this.state.listIndex;
+		var arr = [];
+		this.props.list.forEach(function (list,index) {
+            if(list.value.indexOf(this.state.filterText) === -1) {
+                return;
+            }
+            arr.push(list);
+        }.bind(this));
+		var val = arr[ind].value,
+			id = arr[ind].id;
+		// this.switchOption(val);
+		this.props.getSubList(this.props.keyIndex,id,val);
+		this.setState({
+			currentVal: val,
+			listIndex: index
+		});
+	},
+	handleEnter: function () {
+		this.setState({
+			showFlag: false
+		});
 	},
 	render: function () {
 		var contents = [
 			(
-				<DropBtn currentVal={this.state.currentVal} list={this.props.list} onUserInput={this.handleUserInput} onBlurInput={this.clearInput}></DropBtn>
+				<DropBtn currentVal={this.state.currentVal} filterText={this.state.filterText} list={this.props.list} onUserInput={this.handleUserInput} onBlurInput={this.clearInput} onKey={this.handleKey} onEnter={this.handleEnter}></DropBtn>
 			),
 			(
-				<DropList list={this.props.list} filterText={this.state.filterText} switchOption={this.switchOption} getSubList={this.handleList} keyIndex={this.props.keyIndex}></DropList>
+				<DropList list={this.props.list} listIndex = {this.state.listIndex} filterText={this.state.filterText} onConfirm={this.handleKey}></DropList>
 			)
 		];
 
