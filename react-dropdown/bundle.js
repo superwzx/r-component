@@ -21210,7 +21210,8 @@
 			document.body.addEventListener('click', function (e) {
 				if (this.refs.hahaha.querySelector('input') == e.target) {
 					this.setState({
-						showFlag: !this.state.showFlag
+						showFlag: !this.state.showFlag,
+						listIndex: ''
 					});
 				} else {
 					this.setState({
@@ -21259,16 +21260,9 @@
 		},
 		handleKey: function handleKey(index) {
 			var ind = arguments[0] !== '' ? +arguments[0] : +this.state.listIndex;
-			var arr = [];
-			this.props.list.forEach(function (list, index) {
-				if (list.value.indexOf(this.state.filterText) === -1) {
-					return;
-				}
-				arr.push(list);
-			}.bind(this));
+			var arr = this.filterList();
 			var val = arr[ind].value,
 			    id = arr[ind].id;
-			// this.switchOption(val);
 			this.props.getSubList(this.props.keyIndex, id, val);
 			this.setState({
 				currentVal: val,
@@ -21280,8 +21274,19 @@
 				showFlag: false
 			});
 		},
+		filterList: function filterList() {
+			var array = [];
+			this.props.list.forEach(function (list, index) {
+				if (list.value.indexOf(this.state.filterText) === -1) {
+					return;
+				}
+				array.push(list);
+			}.bind(this));
+			return array;
+		},
 		render: function render() {
-			var contents = [React.createElement(DropBtn, { currentVal: this.state.currentVal, filterText: this.state.filterText, list: this.props.list, onUserInput: this.handleUserInput, onBlurInput: this.clearInput, onKey: this.handleKey, onEnter: this.handleEnter }), React.createElement(DropList, { list: this.props.list, listIndex: this.state.listIndex, filterText: this.state.filterText, onConfirm: this.handleKey })];
+			var array = this.filterList();
+			var contents = [React.createElement(DropBtn, { currentVal: this.state.currentVal, filterText: this.state.filterText, list: array, onUserInput: this.handleUserInput, onBlurInput: this.clearInput, onKey: this.handleKey, onEnter: this.handleEnter }), React.createElement(DropList, { list: array, listIndex: this.state.listIndex, filterText: this.state.filterText, onConfirm: this.handleKey })];
 
 			return React.createElement(
 				'div',
@@ -21315,24 +21320,17 @@
 	        var ind = '';
 	        document.body.addEventListener('keyup', function (e) {
 	            if (this.refs.filterText !== e.target) return;
-	            var val = this.refs.filterText.value,
-	                arr = [];
-	            this.props.list.forEach(function (list, index) {
-	                if (list.value.indexOf(this.props.filterText) === -1) {
-	                    return;
-	                }
-	                arr.push(list);
-	            }.bind(this));
-	            arr.forEach(function (item, index) {
+	            var val = this.refs.filterText.value;
+	            this.props.list.forEach(function (item, index) {
 	                if (item.value == val) {
 	                    ind = index;
 	                }
 	            });
 	            switch (e.keyCode) {
 	                case 38:
-	                    ind = ind !== '' && ind > 0 ? --ind : arr.length - 1;this.props.onKey(ind);break;
+	                    ind = ind !== '' && ind > 0 ? --ind : this.props.list.length - 1;this.props.onKey(ind);break;
 	                case 40:
-	                    ind = ind !== '' && ind < arr.length - 1 ? ++ind : 0;this.props.onKey(ind);break;
+	                    ind = ind !== '' && ind < this.props.list.length - 1 ? ++ind : 0;this.props.onKey(ind);break;
 	                case 13:
 	                    this.props.onEnter();this.refs.filterText.blur();break;
 	            }
@@ -21358,40 +21356,33 @@
 	var React = __webpack_require__(1);
 
 	var DropList = React.createClass({
-	  displayName: 'DropList',
+		displayName: 'DropList',
 
 
-	  getInitialState: function getInitialState() {
-	    return {
-	      currentVal: this.props.currentVal
-	    };
-	  },
-	  selectOption: function selectOption(e) {
-	    var id = e.target.getAttribute('data-id');
-	    this.props.onConfirm(+id);
-	  },
-	  render: function render() {
-	    var array = [],
-	        arr = [];
-	    this.props.list.forEach(function (list, index) {
-	      if (list.value.indexOf(this.props.filterText) === -1) {
-	        return;
-	      }
-	      array.push(list);
-	    }.bind(this));
-	    array.forEach(function (list, index) {
-	      arr.push(React.createElement(
-	        'a',
-	        { href: 'javascript:;', className: this.props.listIndex === index ? 'dropdown-option dropdown-option-active' : 'dropdown-option', key: list.value, 'data-id': index, onClick: this.selectOption },
-	        list.value
-	      ));
-	    }.bind(this));
-	    return React.createElement(
-	      'div',
-	      { className: 'dropdown-list' },
-	      arr
-	    );
-	  }
+		getInitialState: function getInitialState() {
+			return {
+				currentVal: this.props.currentVal
+			};
+		},
+		selectOption: function selectOption(e) {
+			var id = e.target.getAttribute('data-id');
+			this.props.onConfirm(+id);
+		},
+		render: function render() {
+			var arr = [];
+			this.props.list.forEach(function (list, index) {
+				arr.push(React.createElement(
+					'a',
+					{ href: 'javascript:;', className: this.props.listIndex === index ? 'dropdown-option dropdown-option-active' : 'dropdown-option', key: list.value, 'data-id': index, onClick: this.selectOption },
+					list.value
+				));
+			}.bind(this));
+			return React.createElement(
+				'div',
+				{ className: 'dropdown-list' },
+				arr
+			);
+		}
 	});
 
 	module.exports = DropList;
