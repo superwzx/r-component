@@ -17,6 +17,9 @@ var Linkage = React.createClass({
             items: initArr
         });
     },
+    getSelected: function () {
+        return this.state.currentVal;
+    },
     _handleChange: function(index,id,val) {
         var choose = this.state.choose,
             newItems = this.state.items,

@@ -12,14 +12,8 @@ var DropList = React.createClass({
 		this.props.onConfirm(+id);
 	},
 	render: function () {
-		var array = [],arr = [];
+		var arr = [];
         this.props.list.forEach(function (list,index) {
-            if(list.value.indexOf(this.props.filterText) === -1) {
-                return;
-            }
-            array.push(list);
-        }.bind(this));
-        array.forEach(function (list,index) {
             arr.push(<a href="javascript:;" className={this.props.listIndex === index ? 'dropdown-option dropdown-option-active' : 'dropdown-option'} key={list.value} data-id={index} onClick={this.selectOption}>{list.value}</a>);
         }.bind(this));
         return (
