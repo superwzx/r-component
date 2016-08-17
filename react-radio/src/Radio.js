@@ -8,20 +8,18 @@ var Radios = React.createClass({
             checked: this.props.item.checked
         }
     },
-    handleChange: function () {
-        var value = this.state.value,
-            checked = this.state.checked;
-        this.setState({
-            checked: !checked
-        });
-        if(this.props.onChange) {
-            this.props.onChange(value,!checked);
-        }
+    handleChange: function (e) {
+       this.props.parentCallback(e.target.value);
     },
     render: function () {
         return (
             <label>
-                <input type="radio" name={this.props.name} defaultChecked={!!this.state.checked} value={this.state.value} onChange={this.handleChange} />
+                <input type="radio" 
+                    name={this.props.name}
+                    defaultChecked={!!this.state.checked}
+                    value={this.state.value}
+                    onChange={this.handleChange}
+                />
                 <span>{this.state.label}</span>
             </label>
         );

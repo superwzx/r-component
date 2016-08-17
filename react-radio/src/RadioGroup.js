@@ -9,23 +9,10 @@ var RadioGroup = React.createClass({
         }
     },
     getChecked: function () {
-        var val = this.state.data.filter(function (item) {
-            return item.checked == true;
-        });
-        return val;
+        return this.checked;
     },
-    handleChange: function (value,checked) {
-        var oldData = this.props.options,
-            newData = [];
-        for(var i = 0; i < oldData.length; i++) {
-            newData[i] = oldData[i]
-        };
-        newData.forEach(function (item) {
-            item.checked = item.value == value?checked:false;
-        });
-        this.setState({
-            data: newData
-        });
+    setChecked: function (value) {
+        this.checked = value;
     },
     render: function () {
         return (
@@ -33,7 +20,11 @@ var RadioGroup = React.createClass({
                 {
                     this.state.data.map(function (item) {
                         return (
-                            <Radios name={this.state.name} item={item} onChange={this.handleChange}></Radios>
+                            <Radios 
+                                name={this.state.name}
+                                item={item}
+                                parentCallback={this.setChecked}
+                            />
                         )
                     }.bind(this))
                 }
