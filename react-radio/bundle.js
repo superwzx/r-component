@@ -21482,30 +21482,21 @@
 	        };
 	    },
 	    getChecked: function getChecked() {
-	        var val = this.state.data.filter(function (item) {
-	            return item.checked == true;
-	        });
-	        return val;
+	        return this.checked;
 	    },
-	    handleChange: function handleChange(value, checked) {
-	        var oldData = this.props.options,
-	            newData = [];
-	        for (var i = 0; i < oldData.length; i++) {
-	            newData[i] = oldData[i];
-	        };
-	        newData.forEach(function (item) {
-	            item.checked = item.value == value ? checked : false;
-	        });
-	        this.setState({
-	            data: newData
-	        });
+	    setChecked: function setChecked(value) {
+	        this.checked = value;
 	    },
 	    render: function render() {
 	        return React.createElement(
 	            'div',
 	            null,
 	            this.state.data.map(function (item) {
-	                return React.createElement(Radios, { name: this.state.name, item: item, onChange: this.handleChange });
+	                return React.createElement(Radios, {
+	                    name: this.state.name,
+	                    item: item,
+	                    parentCallback: this.setChecked
+	                });
 	            }.bind(this))
 	        );
 	    }
@@ -21531,21 +21522,19 @@
 	            checked: this.props.item.checked
 	        };
 	    },
-	    handleChange: function handleChange() {
-	        var value = this.state.value,
-	            checked = this.state.checked;
-	        this.setState({
-	            checked: !checked
-	        });
-	        if (this.props.onChange) {
-	            this.props.onChange(value, !checked);
-	        }
+	    handleChange: function handleChange(e) {
+	        this.props.parentCallback(e.target.value);
 	    },
 	    render: function render() {
 	        return React.createElement(
 	            "label",
 	            null,
-	            React.createElement("input", { type: "radio", name: this.props.name, defaultChecked: !!this.state.checked, value: this.state.value, onChange: this.handleChange }),
+	            React.createElement("input", { type: "radio",
+	                name: this.props.name,
+	                defaultChecked: !!this.state.checked,
+	                value: this.state.value,
+	                onChange: this.handleChange
+	            }),
 	            React.createElement(
 	                "span",
 	                null,
