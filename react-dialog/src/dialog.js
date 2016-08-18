@@ -1,11 +1,13 @@
 
 let React = require('react');
+let ReactDom = require('react-dom');
+
 
 let Dialog = React.createClass({
 
 	getInitialState () {
 
-		const default = {
+		const defaults = {
 			title: '',
 			content: '',
 			buttons: [{
@@ -21,7 +23,7 @@ let Dialog = React.createClass({
 			}]
 		};
 
-		const config = Object.assign(default, this.props);
+		const config = Object.assign({}, defaults, this.props);
 
 		return {
 			title: config.title,
@@ -71,8 +73,8 @@ let Dialog = React.createClass({
 
 			dialog = (
 				<div>
-					<div>
-						<div>
+					<div className="dialog">
+						<div className="dialog-inner">
 							{title}
 							{content}
 							{buttons}
@@ -92,14 +94,22 @@ let Dialog = React.createClass({
 		);
 
 		return (
-			<div>
-				<div className="dialog-wrap">
-					{dialog}
-					{mask}
-				</div>
+			<div className="dialog-wrap">
+				{mask}
+				{dialog}
 			</div>
 		)
 	}
 });
+
+let renderToLayer = React.createClass({
+	getInitialState() {
+
+	},
+
+	render () {
+		return
+	}
+})
 
 module.exports = Dialog;
