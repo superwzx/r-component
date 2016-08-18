@@ -19,24 +19,6 @@ html,body {
     border: 1px solid #ccc;
     text-decoration: none;
 }
-/*.dropdown-btn i {
-    position: absolute;
-    top: 12px;
-    right: 10px;
-    display: block;
-    width: 0;
-    height: 0;
-    font-size: 0;
-    line-height: 0;
-    border-width: 5px;
-    border-color: #ccc transparent transparent transparent;
-    border-style: solid dashed dashed dashed;
-    transition: all 0.2s ease-in-out;
-    -webkit-transition: all 0.2s ease-in-out;
-    -moz-transition: all 0.2s ease-in-out;
-    -o-transition: all 0.2s ease-in-out;
-    -ms-transition: all 0.2s ease-in-out;
-}*/
 .dropdown-btn input {
     position: relative;
     width: 130px;

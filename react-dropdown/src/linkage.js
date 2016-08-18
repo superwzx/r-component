@@ -1,5 +1,7 @@
 var React = require('react');
+
 var Drop = require('./Drop');
+
 var Linkage = React.createClass({
     getInitialState: function () {
         return {
@@ -10,6 +12,7 @@ var Linkage = React.createClass({
     },
     componentWillMount: function () {
         var num = this.props.count, initArr=[];
+        //设置下拉数组，默认除第一个下拉，其余数组为空
         for(var i = 0;i<num;i++) {
             i==0?initArr.push(this.props.data[i][0]):initArr.push({data:[]});
         }
@@ -25,6 +28,7 @@ var Linkage = React.createClass({
             newItems = this.state.items,
             currentVal = this.state.currentVal,
             num = this.props.count;
+        //选项没变不做操作
         if(choose[+index] == id) return;
         if(id) {
             choose[+index] = +id;
@@ -56,7 +60,13 @@ var Linkage = React.createClass({
     render: function () {
         var arr = [];
         this.state.items.map(function (item,i) {
-            arr.push(<Drop key={i} keyIndex={i} currentVal={this.state.currentVal} list={item.data} getSubList={this._handleChange}></Drop>);
+            arr.push(<Drop 
+                        key={i} 
+                        keyIndex={i} 
+                        currentVal={this.state.currentVal} 
+                        list={item.data} 
+                        getSubList={this._handleChange}
+                    />);
         }.bind(this));
         return (
             <div>{arr}</div>

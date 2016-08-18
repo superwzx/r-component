@@ -21115,7 +21115,9 @@
 	'use strict';
 
 	var React = __webpack_require__(1);
+
 	var Drop = __webpack_require__(173);
+
 	var Linkage = React.createClass({
 	    displayName: 'Linkage',
 
@@ -21129,6 +21131,7 @@
 	    componentWillMount: function componentWillMount() {
 	        var num = this.props.count,
 	            initArr = [];
+	        //设置下拉数组，默认除第一个下拉，其余数组为空
 	        for (var i = 0; i < num; i++) {
 	            i == 0 ? initArr.push(this.props.data[i][0]) : initArr.push({ data: [] });
 	        }
@@ -21144,6 +21147,7 @@
 	            newItems = this.state.items,
 	            currentVal = this.state.currentVal,
 	            num = this.props.count;
+	        //选项没变不做操作
 	        if (choose[+index] == id) return;
 	        if (id) {
 	            choose[+index] = +id;
@@ -21175,7 +21179,13 @@
 	    render: function render() {
 	        var arr = [];
 	        this.state.items.map(function (item, i) {
-	            arr.push(React.createElement(Drop, { key: i, keyIndex: i, currentVal: this.state.currentVal, list: item.data, getSubList: this._handleChange }));
+	            arr.push(React.createElement(Drop, {
+	                key: i,
+	                keyIndex: i,
+	                currentVal: this.state.currentVal,
+	                list: item.data,
+	                getSubList: this._handleChange
+	            }));
 	        }.bind(this));
 	        return React.createElement(
 	            'div',
@@ -21225,11 +21235,12 @@
 		},
 		// 下拉联动时更新input里面的值
 		componentWillReceiveProps: function componentWillReceiveProps() {
+			var index = this.props.keyIndex;
 			this.setState({
-				currentVal: this.props.currentVal[this.props.keyIndex] ? this.props.currentVal[this.props.keyIndex] : ''
+				currentVal: this.props.currentVal[index] ? this.props.currentVal[index] : ''
 			});
 		},
-		// 处理用户输入list删选
+		// 处理用户输入后list的筛选
 		handleUserInput: function handleUserInput(val) {
 			this.setState({
 				filterText: val,
@@ -21243,10 +21254,12 @@
 				filterText: ''
 			});
 		},
+		//input失焦的时候处理下拉数组
 		clearInput: function clearInput(val) {
 			var newData = this.props.list.filter(function (item) {
 				return item.value == val;
 			});
+			//判断输入内容是否存在
 			if (newData != null && newData.length > 0) {
 				this.setState({
 					currentVal: val,
@@ -21261,7 +21274,8 @@
 				this.props.getSubList(this.props.keyIndex, '', '');
 			}
 		},
-		handleKey: function handleKey(index) {
+		//处理键盘上下键操作以及下拉选项点选操作
+		handleKey: function handleKey() {
 			var ind = arguments[0] !== '' ? +arguments[0] : +this.state.listIndex;
 			var arr = this.filterList();
 			var val = arr[ind].value,
@@ -21269,14 +21283,16 @@
 			this.props.getSubList(this.props.keyIndex, id, val);
 			this.setState({
 				currentVal: val,
-				listIndex: index
+				listIndex: ind
 			});
 		},
+		//处理键盘回车事件
 		handleEnter: function handleEnter() {
 			this.setState({
 				showFlag: false
 			});
 		},
+		//过滤与输入文字匹配的项
 		filterList: function filterList() {
 			var array = [];
 			this.props.list.forEach(function (list, index) {
@@ -21289,11 +21305,24 @@
 		},
 		render: function render() {
 			var array = this.filterList();
-			var contents = [React.createElement(DropBtn, { currentVal: this.state.currentVal, filterText: this.state.filterText, list: array, onUserInput: this.handleUserInput, onBlurInput: this.clearInput, onKey: this.handleKey, onEnter: this.handleEnter }), React.createElement(DropList, { list: array, listIndex: this.state.listIndex, filterText: this.state.filterText, onConfirm: this.handleKey })];
+			var contents = [React.createElement(DropBtn, {
+				currentVal: this.state.currentVal,
+				list: array,
+				onUserInput: this.handleUserInput,
+				onBlurInput: this.clearInput,
+				onKey: this.handleKey,
+				onEnter: this.handleEnter
+			}), React.createElement(DropList, {
+				list: array,
+				listIndex: this.state.listIndex,
+				onConfirm: this.handleKey
+			})];
 
 			return React.createElement(
 				'div',
-				{ ref: 'hahaha', className: this.state.showFlag ? 'dropdown-wrap dropdown-active' : 'dropdown-wrap' },
+				{
+					ref: 'hahaha',
+					className: this.state.showFlag ? 'dropdown-wrap dropdown-active' : 'dropdown-wrap' },
 				contents
 			);
 		}
@@ -21312,9 +21341,11 @@
 	var DropBtn = React.createClass({
 	    displayName: 'DropBtn',
 
+	    //返回input中输入的值
 	    handleChange: function handleChange() {
 	        this.props.onUserInput(this.refs.filterText.value);
 	    },
+	    //input失焦事件，调用drop中的clearInput
 	    clearInput: function clearInput() {
 	        var val = this.refs.filterText.value;
 	        this.props.onBlurInput(val);
@@ -21324,18 +21355,26 @@
 	        document.body.addEventListener('keyup', function (e) {
 	            if (this.refs.filterText !== e.target) return;
 	            var val = this.refs.filterText.value;
+	            //返回选项中与input值匹配的索引值
 	            this.props.list.forEach(function (item, index) {
 	                if (item.value == val) {
 	                    ind = index;
 	                }
 	            });
+	            //监控键盘上下键及回车键
 	            switch (e.keyCode) {
 	                case 38:
-	                    ind = ind !== '' && ind > 0 ? --ind : this.props.list.length - 1;this.props.onKey(ind);break;
+	                    ind = ind !== '' && ind > 0 ? --ind : this.props.list.length - 1;
+	                    this.props.onKey(ind);
+	                    break;
 	                case 40:
-	                    ind = ind !== '' && ind < this.props.list.length - 1 ? ++ind : 0;this.props.onKey(ind);break;
+	                    ind = ind !== '' && ind < this.props.list.length - 1 ? ++ind : 0;
+	                    this.props.onKey(ind);
+	                    break;
 	                case 13:
-	                    this.props.onEnter();this.refs.filterText.blur();break;
+	                    this.props.onEnter();
+	                    this.refs.filterText.blur();
+	                    break;
 	            }
 	        }.bind(this), false);
 	    },
@@ -21343,7 +21382,13 @@
 	        return React.createElement(
 	            'a',
 	            { href: 'javascript:;', className: 'dropdown-btn' },
-	            React.createElement('input', { type: 'text', value: this.props.currentVal, ref: 'filterText', onChange: this.handleChange, onBlur: this.clearInput })
+	            React.createElement('input', {
+	                type: 'text',
+	                value: this.props.currentVal,
+	                ref: 'filterText',
+	                onChange: this.handleChange,
+	                onBlur: this.clearInput
+	            })
 	        );
 	    }
 	});
@@ -21359,33 +21404,32 @@
 	var React = __webpack_require__(1);
 
 	var DropList = React.createClass({
-		displayName: 'DropList',
+	    displayName: 'DropList',
 
-
-		getInitialState: function getInitialState() {
-			return {
-				currentVal: this.props.currentVal
-			};
-		},
-		selectOption: function selectOption(e) {
-			var id = e.target.getAttribute('data-id');
-			this.props.onConfirm(+id);
-		},
-		render: function render() {
-			var arr = [];
-			this.props.list.forEach(function (list, index) {
-				arr.push(React.createElement(
-					'a',
-					{ href: 'javascript:;', className: this.props.listIndex === index ? 'dropdown-option dropdown-option-active' : 'dropdown-option', key: list.value, 'data-id': index, onClick: this.selectOption },
-					list.value
-				));
-			}.bind(this));
-			return React.createElement(
-				'div',
-				{ className: 'dropdown-list' },
-				arr
-			);
-		}
+	    //下拉选项选择操作，并返回index
+	    selectOption: function selectOption(e) {
+	        var id = e.target.getAttribute('data-id');
+	        this.props.onConfirm(+id);
+	    },
+	    render: function render() {
+	        var arr = [];
+	        this.props.list.forEach(function (list, index) {
+	            arr.push(React.createElement(
+	                'a',
+	                {
+	                    href: 'javascript:;',
+	                    className: this.props.listIndex === index ? 'dropdown-option dropdown-option-active' : 'dropdown-option',
+	                    'data-id': index,
+	                    onClick: this.selectOption },
+	                list.value
+	            ));
+	        }.bind(this));
+	        return React.createElement(
+	            'div',
+	            { className: 'dropdown-list' },
+	            arr
+	        );
+	    }
 	});
 
 	module.exports = DropList;
