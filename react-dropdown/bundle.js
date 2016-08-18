@@ -48,8 +48,9 @@
 
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(33);
-	var Linkage = __webpack_require__(172);
 
+	var Linkage = __webpack_require__(172);
+	//联动选项，有几个下拉，DATA包含几个数组，pid对应
 	var DATA = {
 	    0: [{
 	        label: '省',
@@ -70,10 +71,14 @@
 	        data: [{ id: 100, value: '什么区' }]
 	    }]
 	};
+	//count表示有几个下拉                                                              
 	ReactDOM.render(React.createElement(
 	    'div',
 	    null,
-	    React.createElement(Linkage, { data: DATA, count: 3 })
+	    React.createElement(Linkage, {
+	        data: DATA,
+	        count: 3
+	    })
 	), document.getElementById('haha'));
 
 /***/ },

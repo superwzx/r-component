@@ -1,7 +1,8 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
-var Linkage = require('./src/Linkage');
 
+var Linkage = require('./src/Linkage');
+//联动选项，有几个下拉，DATA包含几个数组，pid对应
 var DATA = {
     0:[
         {
@@ -37,11 +38,15 @@ var DATA = {
             {id: 100,value: '什么区'}
         ]
     }]
-};                                                                                                                                                                                        
+};                                                                                                                     
+//count表示有几个下拉                                                              
 ReactDOM.render(
 	(
         <div>
-            <Linkage data = {DATA} count={3}></Linkage>
+            <Linkage
+                data = {DATA}
+                count={3}
+            />
         </div>
     ),
 	document.getElementById('haha')
