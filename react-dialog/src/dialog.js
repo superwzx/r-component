@@ -102,14 +102,4 @@ let Dialog = React.createClass({
 	}
 });
 
-let renderToLayer = React.createClass({
-	getInitialState() {
-
-	},
-
-	render () {
-		return
-	}
-})
-
 module.exports = Dialog;
