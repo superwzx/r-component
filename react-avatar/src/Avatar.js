@@ -1,7 +1,14 @@
-var React = require('react');
+import * as React from 'react';
 
-var Avatar = React.createClass({
-    componentWillMount: function () {
+let Avatar = React.createClass({
+    propTypes: {
+        src: React.PropTypes.string,
+        defaultSrc: React.PropTypes.string,
+        size: React.PropTypes.number,
+        icon: React.PropTypes.string,
+        background: React.PropTypes.string
+    },
+    componentWillMount () {
         this.style = {
             root: {
                 display: 'table',
@@ -18,12 +25,12 @@ var Avatar = React.createClass({
                 verticalAlign: 'middle'
             },
             icon: {
-                fontSize: this.props.size*0.5
+                fontSize: (this.props.size || 40)*0.5
             }
         }
-        this.src = this.props.src || this.props.defaultSrc;
+        this.src = this.props.src || this.props.defaultSrc || '';
     },
-    render: function () {
+    render () {
         if(this.props.icon) {
             return (
                 <div style={this.style.root}>

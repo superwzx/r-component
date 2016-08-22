@@ -61,7 +61,7 @@
 	        defaultSrc: './images/head.jpg',
 	        size: 50,
 	        icon: 'avatar-font-icon',
-	        background: 'blue'
+	        background: '#ccc'
 	    })
 	), document.getElementById('haha'));
 
@@ -21477,11 +21477,22 @@
 
 	'use strict';
 
-	var React = __webpack_require__(1);
+	var _react = __webpack_require__(1);
+
+	var React = _interopRequireWildcard(_react);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	var Avatar = React.createClass({
 	    displayName: 'Avatar',
 
+	    propTypes: {
+	        src: React.PropTypes.string,
+	        defaultSrc: React.PropTypes.string,
+	        size: React.PropTypes.number,
+	        icon: React.PropTypes.string,
+	        background: React.PropTypes.string
+	    },
 	    componentWillMount: function componentWillMount() {
 	        this.style = {
 	            root: {
@@ -21499,10 +21510,10 @@
 	                verticalAlign: 'middle'
 	            },
 	            icon: {
-	                fontSize: this.props.size * 0.5
+	                fontSize: (this.props.size || 40) * 0.5
 	            }
 	        };
-	        this.src = this.props.src || this.props.defaultSrc;
+	        this.src = this.props.src || this.props.defaultSrc || '';
 	    },
 	    render: function render() {
 	        if (this.props.icon) {

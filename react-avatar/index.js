@@ -13,7 +13,7 @@ ReactDOM.render(
                 defaultSrc="./images/head.jpg"
                 size={50}
                 icon="avatar-font-icon"
-                background="blue"
+                background="#ccc"
             />
         </div>
     ),
