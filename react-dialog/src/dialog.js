@@ -1,12 +1,15 @@
 
 let React = require('react');
+let ReactDom = require('react-dom');
+
 
 let Dialog = React.createClass({
 
 	getInitialState () {
-		return {
-			title: config.title,
-			content: config.content,
+
+		const defaults = {
+			title: '',
+			content: '',
 			buttons: [{
 				short: 'OK',
 				name: '确定',
@@ -18,6 +21,15 @@ let Dialog = React.createClass({
 				className: '',
 				handle: (e) => {}
 			}]
+		};
+
+		const config = Object.assign({}, defaults, this.props);
+
+		return {
+			title: config.title,
+			content: config.content,
+			buttons: config.buttons,
+			status: false
 		}
 	},
 
@@ -27,51 +39,64 @@ let Dialog = React.createClass({
 
 	render () {
 
-		let title = (
-			<div>
-				<div className="dialog-title">
-					<div className="dialog-title-inner">
-						{this.state.title}
-					</div>
-				</div>
-			</div>
-		);
+		let dialog;
 
-		let content = (
-			<div className="dialog-content">
-				<div className="dialog-content-inner">
+		if (this.state.status) {
+
+			const title = (
+				<div className="dialog-title">
+					<h3>
+						{this.state.title}
+					</h3>
+				</div>
+			);
+
+			const content = (
+				<div className="dialog-content">
 					{this.state.content}
 				</div>
-			</div>
-		);
+			);
 
-		let buttons = (
-			<div className="dialog-buttons">
-				<div className="dialog-buttons-inner">
+			const buttons = (
+				<div className="dialog-buttons">
 					{
 						this.state.buttons.map(function (item) {
 							return (
-								<button
-									onClick={item.handle}
-								>
+								<button onClick={item.handle}>
 									item.name
 								</button>
 							)
 						})
 					}
 				</div>
-			</div>
+			);
+
+			dialog = (
+				<div>
+					<div className="dialog">
+						<div className="dialog-inner">
+							{title}
+							{content}
+							{buttons}
+						</div>
+					</div>
+				</div>
+			);
+
+		} else {
+			dialog = (
+				<div></div>
+			)
+		}
+
+		const mask = (
+			<div className="dialog-mask"></div>
 		);
 
 		return (
-			<div className="dialog-mask">
-				<div className="dialog">
-					<div className="dialog-inner">
-						{title}
-						{content}
-						{buttons}
-					</div>
-				</div>
+			<div className="dialog-wrap">
+				{mask}
+				{dialog}
 			</div>
 		)
 	}

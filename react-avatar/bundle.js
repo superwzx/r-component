@@ -48,13 +48,16 @@
 
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(35);
-	var RadioGroup = __webpack_require__(175);
+	var Avatar = __webpack_require__(175);
 
-	var DATA = [{ label: '苹果', value: 'Apple', checked: false }, { label: '梨', value: 'Pear', checked: false }, { label: '橘', value: 'Orange', checked: false }];
 	ReactDOM.render(React.createElement(
 	    'div',
 	    null,
-	    React.createElement(RadioGroup, { options: DATA, name: 'fruit' })
+	    React.createElement(Avatar, {
+	        src: './images/head.jpg',
+	        defaultSrc: './images/head.jpg',
+	        size: 40
+	    })
 	), document.getElementById('haha'));
 
 /***/ },
@@ -21470,81 +21473,32 @@
 	'use strict';
 
 	var React = __webpack_require__(1);
-	var Radios = __webpack_require__(176);
 
-	var RadioGroup = React.createClass({
-	    displayName: 'RadioGroup',
+	var Avatar = React.createClass({
+	    displayName: 'Avatar',
 
-	    getInitialState: function getInitialState() {
-	        return {
-	            data: this.props.options,
-	            name: this.props.name || 'radio-' + new Date()
+	    componentWillMount: function componentWillMount() {
+	        this.style = {
+	            root: {
+	                width: this.props.size || 40,
+	                height: this.props.size || 40,
+	                textAlign: 'center',
+	                borderRadius: '50%',
+	                overflow: 'hidden'
+	            }
 	        };
-	    },
-	    getChecked: function getChecked() {
-	        return this.checked;
-	    },
-	    setChecked: function setChecked(value) {
-	        this.checked = value;
+	        this.src = this.props.src || this.props.defaultSrc;
 	    },
 	    render: function render() {
 	        return React.createElement(
 	            'div',
-	            null,
-	            this.state.data.map(function (item) {
-	                return React.createElement(Radios, {
-	                    name: this.state.name,
-	                    item: item,
-	                    parentCallback: this.setChecked
-	                });
-	            }.bind(this))
+	            { style: this.style.root },
+	            React.createElement('img', { src: this.src, width: '100%', height: '100%' })
 	        );
 	    }
 	});
 
-	module.exports = RadioGroup;
-
-/***/ },
-/* 176 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var React = __webpack_require__(1);
-
-	var Radios = React.createClass({
-	    displayName: "Radios",
-
-	    getInitialState: function getInitialState() {
-	        return {
-	            label: this.props.item.label,
-	            value: this.props.item.value,
-	            checked: this.props.item.checked
-	        };
-	    },
-	    handleChange: function handleChange(e) {
-	        this.props.parentCallback(e.target.value);
-	    },
-	    render: function render() {
-	        return React.createElement(
-	            "label",
-	            null,
-	            React.createElement("input", { type: "radio",
-	                name: this.props.name,
-	                defaultChecked: !!this.state.checked,
-	                value: this.state.value,
-	                onChange: this.handleChange
-	            }),
-	            React.createElement(
-	                "span",
-	                null,
-	                this.state.label
-	            )
-	        );
-	    }
-	});
-
-	module.exports = Radios;
+	module.exports = Avatar;
 
 /***/ }
 /******/ ]);

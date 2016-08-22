@@ -47,15 +47,8 @@
 	'use strict';
 
 	var React = __webpack_require__(1);
-	var ReactDOM = __webpack_require__(35);
-	var RadioGroup = __webpack_require__(175);
-
-	var DATA = [{ label: '苹果', value: 'Apple', checked: false }, { label: '梨', value: 'Pear', checked: false }, { label: '橘', value: 'Orange', checked: false }];
-	ReactDOM.render(React.createElement(
-	    'div',
-	    null,
-	    React.createElement(RadioGroup, { options: DATA, name: 'fruit' })
-	), document.getElementById('haha'));
+	var ReactDom = __webpack_require__(35);
+	var Dialog = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./src/Dialog\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
 
 /***/ },
 /* 1 */
@@ -166,83 +159,14 @@
 /***/ function(module, exports) {
 
 	// shim for using process in browser
+
 	var process = module.exports = {};
-
-	// cached from whatever global is present so that test runners that stub it
-	// don't break things.  But we need to wrap it in a try catch in case it is
-	// wrapped in strict mode code which doesn't define any globals.  It's inside a
-	// function because try/catches deoptimize in certain engines.
-
-	var cachedSetTimeout;
-	var cachedClearTimeout;
-
-	(function () {
-	    try {
-	        cachedSetTimeout = setTimeout;
-	    } catch (e) {
-	        cachedSetTimeout = function () {
-	            throw new Error('setTimeout is not defined');
-	        }
-	    }
-	    try {
-	        cachedClearTimeout = clearTimeout;
-	    } catch (e) {
-	        cachedClearTimeout = function () {
-	            throw new Error('clearTimeout is not defined');
-	        }
-	    }
-	} ())
-	function runTimeout(fun) {
-	    if (cachedSetTimeout === setTimeout) {
-	        //normal enviroments in sane situations
-	        return setTimeout(fun, 0);
-	    }
-	    try {
-	        // when when somebody has screwed with setTimeout but no I.E. maddness
-	        return cachedSetTimeout(fun, 0);
-	    } catch(e){
-	        try {
-	            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-	            return cachedSetTimeout.call(null, fun, 0);
-	        } catch(e){
-	            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-	            return cachedSetTimeout.call(this, fun, 0);
-	        }
-	    }
-
-
-	}
-	function runClearTimeout(marker) {
-	    if (cachedClearTimeout === clearTimeout) {
-	        //normal enviroments in sane situations
-	        return clearTimeout(marker);
-	    }
-	    try {
-	        // when when somebody has screwed with setTimeout but no I.E. maddness
-	        return cachedClearTimeout(marker);
-	    } catch (e){
-	        try {
-	            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-	            return cachedClearTimeout.call(null, marker);
-	        } catch (e){
-	            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-	            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-	            return cachedClearTimeout.call(this, marker);
-	        }
-	    }
-
-
-
-	}
 	var queue = [];
 	var draining = false;
 	var currentQueue;
 	var queueIndex = -1;
 
 	function cleanUpNextTick() {
-	    if (!draining || !currentQueue) {
-	        return;
-	    }
 	    draining = false;
 	    if (currentQueue.length) {
 	        queue = currentQueue.concat(queue);
@@ -258,7 +182,7 @@
 	    if (draining) {
 	        return;
 	    }
-	    var timeout = runTimeout(cleanUpNextTick);
+	    var timeout = setTimeout(cleanUpNextTick);
 	    draining = true;
 
 	    var len = queue.length;
@@ -275,7 +199,7 @@
 	    }
 	    currentQueue = null;
 	    draining = false;
-	    runClearTimeout(timeout);
+	    clearTimeout(timeout);
 	}
 
 	process.nextTick = function (fun) {
@@ -287,7 +211,7 @@
 	    }
 	    queue.push(new Item(fun, args));
 	    if (queue.length === 1 && !draining) {
-	        runTimeout(drainQueue);
+	        setTimeout(drainQueue, 0);
 	    }
 	};
 
@@ -21462,89 +21386,6 @@
 	var ReactMount = __webpack_require__(167);
 
 	module.exports = ReactMount.renderSubtreeIntoContainer;
-
-/***/ },
-/* 175 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var React = __webpack_require__(1);
-	var Radios = __webpack_require__(176);
-
-	var RadioGroup = React.createClass({
-	    displayName: 'RadioGroup',
-
-	    getInitialState: function getInitialState() {
-	        return {
-	            data: this.props.options,
-	            name: this.props.name || 'radio-' + new Date()
-	        };
-	    },
-	    getChecked: function getChecked() {
-	        return this.checked;
-	    },
-	    setChecked: function setChecked(value) {
-	        this.checked = value;
-	    },
-	    render: function render() {
-	        return React.createElement(
-	            'div',
-	            null,
-	            this.state.data.map(function (item) {
-	                return React.createElement(Radios, {
-	                    name: this.state.name,
-	                    item: item,
-	                    parentCallback: this.setChecked
-	                });
-	            }.bind(this))
-	        );
-	    }
-	});
-
-	module.exports = RadioGroup;
-
-/***/ },
-/* 176 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var React = __webpack_require__(1);
-
-	var Radios = React.createClass({
-	    displayName: "Radios",
-
-	    getInitialState: function getInitialState() {
-	        return {
-	            label: this.props.item.label,
-	            value: this.props.item.value,
-	            checked: this.props.item.checked
-	        };
-	    },
-	    handleChange: function handleChange(e) {
-	        this.props.parentCallback(e.target.value);
-	    },
-	    render: function render() {
-	        return React.createElement(
-	            "label",
-	            null,
-	            React.createElement("input", { type: "radio",
-	                name: this.props.name,
-	                defaultChecked: !!this.state.checked,
-	                value: this.state.value,
-	                onChange: this.handleChange
-	            }),
-	            React.createElement(
-	                "span",
-	                null,
-	                this.state.label
-	            )
-	        );
-	    }
-	});
-
-	module.exports = Radios;
 
 /***/ }
 /******/ ]);
