@@ -8,15 +8,21 @@ let Avatar = React.createClass({
         icon: React.PropTypes.string,
         background: React.PropTypes.string
     },
+    getDefaultProps () {
+        return {
+            size: 40,
+            background: 'none'
+        }
+    },
     componentWillMount () {
         this.style = {
             root: {
                 display: 'table',
-                width: this.props.size || 40,
-                height: this.props.size || 40,
+                width: this.props.size,
+                height: this.props.size,
                 textAlign: 'center',
                 borderRadius: '50%',
-                background: this.props.background || 'none',
+                background: this.props.background,
                 overflow: 'hidden'
             },
             inner: {
@@ -25,7 +31,7 @@ let Avatar = React.createClass({
                 verticalAlign: 'middle'
             },
             icon: {
-                fontSize: (this.props.size || 40)*0.5
+                fontSize: this.props.size *0.5
             }
         }
         this.src = this.props.src || this.props.defaultSrc || '';
