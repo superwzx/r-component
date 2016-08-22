@@ -16,7 +16,8 @@ var Drop = React.createClass({
 		document.body.addEventListener('click', function (e) {
 			if(this.refs.hahaha.querySelector('input') == e.target) {
 				this.setState({
-					showFlag: !this.state.showFlag
+					showFlag: !this.state.showFlag,
+					listIndex: ''
 				});
 			} else {
 				this.setState({
@@ -65,16 +66,9 @@ var Drop = React.createClass({
 	},
 	handleKey: function (index) {
 		var ind = (arguments[0]!=='')?+arguments[0]:+this.state.listIndex;
-		var arr = [];
-		this.props.list.forEach(function (list,index) {
-            if(list.value.indexOf(this.state.filterText) === -1) {
-                return;
-            }
-            arr.push(list);
-        }.bind(this));
+		var arr = this.filterList();
 		var val = arr[ind].value,
 			id = arr[ind].id;
-		// this.switchOption(val);
 		this.props.getSubList(this.props.keyIndex,id,val);
 		this.setState({
 			currentVal: val,
@@ -86,13 +80,24 @@ var Drop = React.createClass({
 			showFlag: false
 		});
 	},
+	filterList: function () {
+		var array = [];
+		this.props.list.forEach(function (list,index) {
+            if(list.value.indexOf(this.state.filterText) === -1) {
+                return;
+            }
+            array.push(list);
+        }.bind(this));
+        return array;
+	},
 	render: function () {
+		var array = this.filterList();
 		var contents = [
 			(
-				<DropBtn currentVal={this.state.currentVal} filterText={this.state.filterText} list={this.props.list} onUserInput={this.handleUserInput} onBlurInput={this.clearInput} onKey={this.handleKey} onEnter={this.handleEnter}></DropBtn>
+				<DropBtn currentVal={this.state.currentVal} filterText={this.state.filterText} list={array} onUserInput={this.handleUserInput} onBlurInput={this.clearInput} onKey={this.handleKey} onEnter={this.handleEnter}></DropBtn>
 			),
 			(
-				<DropList list={this.props.list} listIndex = {this.state.listIndex} filterText={this.state.filterText} onConfirm={this.handleKey}></DropList>
+				<DropList list={array} listIndex = {this.state.listIndex} filterText={this.state.filterText} onConfirm={this.handleKey}></DropList>
 			)
 		];
 
