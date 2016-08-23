@@ -46,15 +46,25 @@
 
 	'use strict';
 
-	var React = __webpack_require__(1);
-	var ReactDOM = __webpack_require__(35);
-	var RadioGroup = __webpack_require__(175);
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(35);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _RadioGroup = __webpack_require__(175);
+
+	var _RadioGroup2 = _interopRequireDefault(_RadioGroup);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var DATA = [{ label: '苹果', value: 'Apple', checked: false }, { label: '梨', value: 'Pear', checked: false }, { label: '橘', value: 'Orange', checked: false }];
-	ReactDOM.render(React.createElement(
+	_reactDom2.default.render(_react2.default.createElement(
 	    'div',
 	    null,
-	    React.createElement(RadioGroup, { options: DATA, name: 'fruit' })
+	    _react2.default.createElement(_RadioGroup2.default, { options: DATA, name: 'fruit' })
 	), document.getElementById('haha'));
 
 /***/ },
@@ -21469,40 +21479,83 @@
 
 	'use strict';
 
-	var React = __webpack_require__(1);
-	var Radios = __webpack_require__(176);
-
-	var RadioGroup = React.createClass({
-	    displayName: 'RadioGroup',
-
-	    getInitialState: function getInitialState() {
-	        return {
-	            data: this.props.options,
-	            name: this.props.name || 'radio-' + new Date()
-	        };
-	    },
-	    getChecked: function getChecked() {
-	        return this.checked;
-	    },
-	    setChecked: function setChecked(value) {
-	        this.checked = value;
-	    },
-	    render: function render() {
-	        return React.createElement(
-	            'div',
-	            null,
-	            this.state.data.map(function (item) {
-	                return React.createElement(Radios, {
-	                    name: this.state.name,
-	                    item: item,
-	                    parentCallback: this.setChecked
-	                });
-	            }.bind(this))
-	        );
-	    }
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
 	});
 
-	module.exports = RadioGroup;
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _Radio = __webpack_require__(176);
+
+	var _Radio2 = _interopRequireDefault(_Radio);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var RadioGroup = function (_Component) {
+	    _inherits(RadioGroup, _Component);
+
+	    function RadioGroup() {
+	        var _Object$getPrototypeO;
+
+	        var _temp, _this, _ret;
+
+	        _classCallCheck(this, RadioGroup);
+
+	        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	            args[_key] = arguments[_key];
+	        }
+
+	        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(RadioGroup)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.state = {
+	            data: _this.props.options,
+	            name: _this.props.name
+	        }, _this.getChecked = function () {
+	            return _this.checked;
+	        }, _this.setChecked = function (value) {
+	            _this.checked = value;
+	        }, _temp), _possibleConstructorReturn(_this, _ret);
+	    }
+
+	    _createClass(RadioGroup, [{
+	        key: 'getDefaultprops',
+	        value: function getDefaultprops() {
+	            name: 'radio-' + new Date();
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'div',
+	                null,
+	                this.state.data.map(function (item, index) {
+	                    return _react2.default.createElement(_Radio2.default, {
+	                        key: index,
+	                        name: this.state.name,
+	                        item: item,
+	                        parentCallback: this.setChecked
+	                    });
+	                }.bind(this))
+	            );
+	        }
+	    }]);
+
+	    return RadioGroup;
+	}(_react.Component);
+
+	RadioGroup.propTypes = {
+	    options: _react2.default.PropTypes.array.isRequired,
+	    name: _react2.default.PropTypes.string
+	};
+	exports.default = RadioGroup;
 
 /***/ },
 /* 176 */
@@ -21510,41 +21563,71 @@
 
 	"use strict";
 
-	var React = __webpack_require__(1);
-
-	var Radios = React.createClass({
-	    displayName: "Radios",
-
-	    getInitialState: function getInitialState() {
-	        return {
-	            label: this.props.item.label,
-	            value: this.props.item.value,
-	            checked: this.props.item.checked
-	        };
-	    },
-	    handleChange: function handleChange(e) {
-	        this.props.parentCallback(e.target.value);
-	    },
-	    render: function render() {
-	        return React.createElement(
-	            "label",
-	            null,
-	            React.createElement("input", { type: "radio",
-	                name: this.props.name,
-	                defaultChecked: !!this.state.checked,
-	                value: this.state.value,
-	                onChange: this.handleChange
-	            }),
-	            React.createElement(
-	                "span",
-	                null,
-	                this.state.label
-	            )
-	        );
-	    }
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
 	});
 
-	module.exports = Radios;
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Radios = function (_Component) {
+	    _inherits(Radios, _Component);
+
+	    function Radios(props) {
+	        _classCallCheck(this, Radios);
+
+	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Radios).call(this, props));
+
+	        _this.state = {
+	            label: _this.props.item.label,
+	            value: _this.props.item.value,
+	            checked: _this.props.item.checked
+	        };
+
+	        _this.handleChange = function (e) {
+	            _this.props.parentCallback(e.target.value);
+	        };
+
+	        return _this;
+	    }
+
+	    _createClass(Radios, [{
+	        key: "render",
+	        value: function render() {
+	            return _react2.default.createElement(
+	                "label",
+	                null,
+	                _react2.default.createElement("input", {
+	                    type: "radio",
+	                    name: this.props.name,
+	                    defaultChecked: !!this.state.checked,
+	                    value: this.state.value,
+	                    onChange: this.handleChange
+	                }),
+	                _react2.default.createElement(
+	                    "span",
+	                    null,
+	                    this.state.label
+	                )
+	            );
+	        }
+	    }]);
+
+	    return Radios;
+	}(_react.Component);
+
+	exports.default = Radios;
 
 /***/ }
 /******/ ]);

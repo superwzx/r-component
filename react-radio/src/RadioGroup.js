@@ -1,29 +1,35 @@
-var React = require('react');
-var Radios = require('./Radio');
+import React, {Component, PropTypes} from 'react';
+import Radios from './Radio';
 
-var RadioGroup = React.createClass({
-    getInitialState: function () {
-        return {
-            data: this.props.options,
-            name: this.props.name || 'radio-'+new Date()
-        }
-    },
-    getChecked: function () {
+class RadioGroup extends Component {
+    static propTypes = {
+        options: React.PropTypes.array.isRequired,
+        name: React.PropTypes.string
+    };
+    getDefaultprops () {
+        name: 'radio-'+new Date()
+    }
+    state = {
+        data: this.props.options,
+        name: this.props.name
+    };
+    getChecked = () => {
         return this.checked;
-    },
-    setChecked: function (value) {
+    }
+    setChecked = (value) => {
         this.checked = value;
-    },
-    render: function () {
+    }
+    render () {
         return (
             <div>
                 {
-                    this.state.data.map(function (item) {
+                    this.state.data.map(function (item,index) {
                         return (
                             <Radios 
-                                name={this.state.name}
-                                item={item}
-                                parentCallback={this.setChecked}
+                                key = {index}
+                                name = {this.state.name}
+                                item = {item}
+                                parentCallback = {this.setChecked}
                             />
                         )
                     }.bind(this))
@@ -31,6 +37,6 @@ var RadioGroup = React.createClass({
             </div>
         );
     }
-});
+}
 
-module.exports = RadioGroup;
+export default RadioGroup;
