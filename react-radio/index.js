@@ -1,6 +1,6 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
-var RadioGroup = require('./src/RadioGroup');
+import React, {Component, PropTypes} from 'react';
+import ReactDOM from 'react-dom';
+import RadioGroup from './src/RadioGroup';
 
 var DATA = [
     {label: '苹果', value: 'Apple',checked: false},
@@ -10,7 +10,10 @@ var DATA = [
 ReactDOM.render(
 	(
         <div>
-            <RadioGroup options={DATA} name="fruit"></RadioGroup>
+            <RadioGroup
+                options={DATA}
+                name="fruit"
+            />
         </div>
     ),
 	document.getElementById('haha')

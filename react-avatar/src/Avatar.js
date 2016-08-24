@@ -1,25 +1,63 @@
-var React = require('react');
+import React, {Component, PropTypes} from 'react';
 
-var Avatar = React.createClass({
-    componentWillMount: function () {
+class Avatar extends Component {
+    static propTypes = {
+        src: React.PropTypes.string,
+        defaultSrc: React.PropTypes.string,
+        size: React.PropTypes.number,
+        icon: React.PropTypes.string,
+        background: React.PropTypes.string
+    };
+    static defaultProps = {
+        size: 40,
+        background: 'none'
+    }
+    componentWillMount = () => {
         this.style = {
             root: {
-                width: this.props.size || 40,
-                height: this.props.size || 40,
+                display: 'table',
+                width: this.props.size,
+                height: this.props.size,
                 textAlign: 'center',
                 borderRadius: '50%',
+                background: this.props.background,
                 overflow: 'hidden'
+            },
+            inner: {
+                display: 'table-cell',
+                textAlign: 'center',
+                verticalAlign: 'middle'
+            },
+            icon: {
+                fontSize: this.props.size *0.5
             }
         }
-        this.src = this.props.src || this.props.defaultSrc;
-    },
-    render: function () {
-        return (
-            <div style={this.style.root}>
-                <img src={this.src} width="100%" height="100%" />
-            </div>
-        )
+        this.src = this.props.src || this.props.defaultSrc || '';
     }
-});
+    render () {
+        if(this.props.icon) {
+            return (
+                <div style={this.style.root}>
+                    <div style={this.style.inner}>
+                        <span
+                            className={this.props.icon}
+                            style={this.style.icon}>
+                        </span>
+                    </div>
+                </div> 
+            )
+        } else {
+            return (
+                <div style={this.style.root}>
+                    <img
+                        src={this.src}
+                        width="100%"
+                        height="100%"
+                    />
+                </div>
+            )
+        }
+    }
+}
 
-module.exports = Avatar;
+export default Avatar;
