@@ -64,7 +64,10 @@
 	_reactDom2.default.render(_react2.default.createElement(
 	    'div',
 	    null,
-	    _react2.default.createElement(_RadioGroup2.default, { options: DATA, name: 'fruit' })
+	    _react2.default.createElement(_RadioGroup2.default, {
+	        options: DATA,
+	        name: 'fruit'
+	    })
 	), document.getElementById('haha'));
 
 /***/ },
@@ -21526,11 +21529,6 @@
 	    }
 
 	    _createClass(RadioGroup, [{
-	        key: 'getDefaultprops',
-	        value: function getDefaultprops() {
-	            name: 'radio-' + new Date();
-	        }
-	    }, {
 	        key: 'render',
 	        value: function render() {
 	            return _react2.default.createElement(
@@ -21554,6 +21552,9 @@
 	RadioGroup.propTypes = {
 	    options: _react2.default.PropTypes.array.isRequired,
 	    name: _react2.default.PropTypes.string
+	};
+	RadioGroup.defaultProps = {
+	    name: 'radio-' + new Date()
 	};
 	exports.default = RadioGroup;
 
@@ -21584,22 +21585,24 @@
 	var Radios = function (_Component) {
 	    _inherits(Radios, _Component);
 
-	    function Radios(props) {
+	    function Radios() {
+	        var _Object$getPrototypeO;
+
+	        var _temp, _this, _ret;
+
 	        _classCallCheck(this, Radios);
 
-	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Radios).call(this, props));
+	        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	            args[_key] = arguments[_key];
+	        }
 
-	        _this.state = {
+	        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(Radios)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.state = {
 	            label: _this.props.item.label,
 	            value: _this.props.item.value,
 	            checked: _this.props.item.checked
-	        };
-
-	        _this.handleChange = function (e) {
+	        }, _this.handleChange = function (e) {
 	            _this.props.parentCallback(e.target.value);
-	        };
-
-	        return _this;
+	        }, _temp), _possibleConstructorReturn(_this, _ret);
 	    }
 
 	    _createClass(Radios, [{

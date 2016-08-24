@@ -46,10 +46,20 @@
 
 	'use strict';
 
-	var React = __webpack_require__(1);
-	var ReactDOM = __webpack_require__(33);
+	var _react = __webpack_require__(1);
 
-	var Linkage = __webpack_require__(172);
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(33);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _Linkage = __webpack_require__(172);
+
+	var _Linkage2 = _interopRequireDefault(_Linkage);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 	//联动选项，有几个下拉，DATA包含几个数组，pid对应
 	var DATA = {
 	    0: [{
@@ -72,10 +82,10 @@
 	    }]
 	};
 	//count表示有几个下拉                                                              
-	ReactDOM.render(React.createElement(
+	_reactDom2.default.render(_react2.default.createElement(
 	    'div',
 	    null,
-	    React.createElement(Linkage, {
+	    _react2.default.createElement(_Linkage2.default, {
 	        data: DATA,
 	        count: 3
 	    })
@@ -21119,88 +21129,126 @@
 
 	'use strict';
 
-	var React = __webpack_require__(1);
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 
-	var Drop = __webpack_require__(173);
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var Linkage = React.createClass({
-	    displayName: 'Linkage',
+	var _react = __webpack_require__(1);
 
-	    getInitialState: function getInitialState() {
-	        return {
+	var _react2 = _interopRequireDefault(_react);
+
+	var _Drop = __webpack_require__(173);
+
+	var _Drop2 = _interopRequireDefault(_Drop);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Linkage = function (_Component) {
+	    _inherits(Linkage, _Component);
+
+	    function Linkage() {
+	        var _Object$getPrototypeO;
+
+	        var _temp, _this, _ret;
+
+	        _classCallCheck(this, Linkage);
+
+	        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	            args[_key] = arguments[_key];
+	        }
+
+	        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(Linkage)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.state = {
 	            items: [],
 	            choose: [],
 	            currentVal: []
-	        };
-	    },
-	    componentWillMount: function componentWillMount() {
-	        var num = this.props.count,
-	            initArr = [];
-	        //设置下拉数组，默认除第一个下拉，其余数组为空
-	        for (var i = 0; i < num; i++) {
-	            i == 0 ? initArr.push(this.props.data[i][0]) : initArr.push({ data: [] });
-	        }
-	        this.setState({
-	            items: initArr
-	        });
-	    },
-	    getSelected: function getSelected() {
-	        return this.state.currentVal;
-	    },
-	    _handleChange: function _handleChange(index, id, val) {
-	        var choose = this.state.choose,
-	            newItems = this.state.items,
-	            currentVal = this.state.currentVal,
-	            num = this.props.count;
-	        //选项没变不做操作
-	        if (choose[+index] == id) return;
-	        if (id) {
-	            choose[+index] = +id;
-	            currentVal[+index] = val;
-	            if (this.props.data[+index + 1]) {
-	                // 过滤和选项匹配的数组
-	                var newData = this.props.data[+index + 1].filter(function (item) {
-	                    return item.pid == +id;
-	                });
+	        }, _this.getSelected = function () {
+	            return _this.state.currentVal;
+	        }, _this._handleChange = function (index, id, val) {
+	            var choose = _this.state.choose,
+	                newItems = _this.state.items,
+	                currentVal = _this.state.currentVal,
+	                num = _this.props.count;
+	            //选项没变不做操作
+	            if (choose[+index] == id) return;
+	            if (id) {
+	                choose[+index] = +id;
+	                currentVal[+index] = val;
+	                if (_this.props.data[+index + 1]) {
+	                    // 过滤和选项匹配的数组
+	                    var newData = _this.props.data[+index + 1].filter(function (item) {
+	                        return item.pid == +id;
+	                    });
+	                }
 	            }
-	        }
-	        //更新items数组
-	        if (+index + 1 < num) {
-	            if (newData != null && newData.length > 0) {
-	                newItems.splice(+index + 1, 1, newData[0]);
-	            } else {
-	                newItems.splice(+index + 1, 1, { data: [] });
+	            //更新items数组
+	            if (+index + 1 < num) {
+	                if (newData != null && newData.length > 0) {
+	                    newItems.splice(+index + 1, 1, newData[0]);
+	                } else {
+	                    newItems.splice(+index + 1, 1, { data: [] });
+	                }
 	            }
-	        }
-	        for (var i = +index + 1; i < num; i++) {
-	            currentVal[i] = '';
-	        }
-	        this.setState({
-	            items: newItems,
-	            choose: choose,
-	            currentVal: currentVal
-	        });
-	    },
-	    render: function render() {
-	        var arr = [];
-	        this.state.items.map(function (item, i) {
-	            arr.push(React.createElement(Drop, {
-	                key: i,
-	                keyIndex: i,
-	                currentVal: this.state.currentVal,
-	                list: item.data,
-	                getSubList: this._handleChange
-	            }));
-	        }.bind(this));
-	        return React.createElement(
-	            'div',
-	            null,
-	            arr
-	        );
+	            for (var i = +index + 1; i < num; i++) {
+	                currentVal[i] = '';
+	            }
+	            _this.setState({
+	                items: newItems,
+	                choose: choose,
+	                currentVal: currentVal
+	            });
+	        }, _temp), _possibleConstructorReturn(_this, _ret);
 	    }
-	});
 
-	module.exports = Linkage;
+	    _createClass(Linkage, [{
+	        key: 'componentWillMount',
+	        value: function componentWillMount() {
+	            var num = this.props.count,
+	                initArr = [];
+	            //设置下拉数组，默认除第一个下拉，其余数组为空
+	            for (var i = 0; i < num; i++) {
+	                i == 0 ? initArr.push(this.props.data[i][0]) : initArr.push({ data: [] });
+	            }
+	            this.setState({
+	                items: initArr
+	            });
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            var arr = [];
+	            this.state.items.map(function (item, i) {
+	                arr.push(_react2.default.createElement(_Drop2.default, {
+	                    key: i,
+	                    keyIndex: i,
+	                    currentVal: this.state.currentVal,
+	                    list: item.data,
+	                    getSubList: this._handleChange
+	                }));
+	            }.bind(this));
+	            return _react2.default.createElement(
+	                'div',
+	                null,
+	                arr
+	            );
+	        }
+	    }]);
+
+	    return Linkage;
+	}(_react.Component);
+
+	Linkage.propTypes = {
+	    data: _react2.default.PropTypes.object.isRequired,
+	    count: _react2.default.PropTypes.number.isRequired
+	};
+	exports.default = Linkage;
 
 /***/ },
 /* 173 */
@@ -21208,132 +21256,173 @@
 
 	'use strict';
 
-	var React = __webpack_require__(1);
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
 
-	var DropBtn = __webpack_require__(174);
-	var DropList = __webpack_require__(175);
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var Drop = React.createClass({
-		displayName: 'Drop',
+	var _react = __webpack_require__(1);
 
-		getInitialState: function getInitialState() {
-			return {
+	var _react2 = _interopRequireDefault(_react);
+
+	var _DropBtn = __webpack_require__(174);
+
+	var _DropBtn2 = _interopRequireDefault(_DropBtn);
+
+	var _DropList = __webpack_require__(175);
+
+	var _DropList2 = _interopRequireDefault(_DropList);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Drop = function (_Component) {
+		_inherits(Drop, _Component);
+
+		function Drop() {
+			var _Object$getPrototypeO;
+
+			var _temp, _this, _ret;
+
+			_classCallCheck(this, Drop);
+
+			for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+				args[_key] = arguments[_key];
+			}
+
+			return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(Drop)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.state = {
 				currentVal: '',
 				showFlag: false,
 				filterText: '',
 				listIndex: ''
-			};
-		},
-		componentWillMount: function componentWillMount() {
-			document.body.addEventListener('click', function (e) {
-				if (this.refs.hahaha.querySelector('input') == e.target) {
-					this.setState({
-						showFlag: !this.state.showFlag,
-						listIndex: ''
-					});
-				} else {
-					this.setState({
-						showFlag: false
-					});
-				}
-			}.bind(this), false);
-		},
-		// 下拉联动时更新input里面的值
-		componentWillReceiveProps: function componentWillReceiveProps() {
-			var index = this.props.keyIndex;
-			this.setState({
-				currentVal: this.props.currentVal[index] ? this.props.currentVal[index] : ''
-			});
-		},
-		// 处理用户输入后list的筛选
-		handleUserInput: function handleUserInput(val) {
-			this.setState({
-				filterText: val,
-				currentVal: val
-			});
-		},
-		// 处理下拉列表点击状态更新
-		switchOption: function switchOption(val) {
-			this.setState({
-				currentVal: val,
-				filterText: ''
-			});
-		},
-		//input失焦的时候处理下拉数组
-		clearInput: function clearInput(val) {
-			var newData = this.props.list.filter(function (item) {
-				return item.value == val;
-			});
-			//判断输入内容是否存在
-			if (newData != null && newData.length > 0) {
-				this.setState({
+			}, _this.handleUserInput = function (val) {
+				_this.setState({
+					filterText: val,
+					currentVal: val
+				});
+			}, _this.switchOption = function (val) {
+				_this.setState({
 					currentVal: val,
 					filterText: ''
 				});
-				this.props.getSubList(this.props.keyIndex, newData[0].id, val);
-			} else {
-				this.setState({
-					currentVal: '',
-					filterText: ''
+			}, _this.clearInput = function (val) {
+				var newData = _this.props.list.filter(function (item) {
+					return item.value == val;
 				});
-				this.props.getSubList(this.props.keyIndex, '', '');
-			}
-		},
-		//处理键盘上下键操作以及下拉选项点选操作
-		handleKey: function handleKey() {
-			var ind = arguments[0] !== '' ? +arguments[0] : +this.state.listIndex;
-			var arr = this.filterList();
-			var val = arr[ind].value,
-			    id = arr[ind].id;
-			this.props.getSubList(this.props.keyIndex, id, val);
-			this.setState({
-				currentVal: val,
-				listIndex: ind
-			});
-		},
-		//处理键盘回车事件
-		handleEnter: function handleEnter() {
-			this.setState({
-				showFlag: false
-			});
-		},
-		//过滤与输入文字匹配的项
-		filterList: function filterList() {
-			var array = [];
-			this.props.list.forEach(function (list, index) {
-				if (list.value.indexOf(this.state.filterText) === -1) {
-					return;
+				//判断输入内容是否存在
+				if (newData != null && newData.length > 0) {
+					_this.setState({
+						currentVal: val,
+						filterText: ''
+					});
+					_this.props.getSubList(_this.props.keyIndex, newData[0].id, val);
+				} else {
+					_this.setState({
+						currentVal: '',
+						filterText: ''
+					});
+					_this.props.getSubList(_this.props.keyIndex, '', '');
 				}
-				array.push(list);
-			}.bind(this));
-			return array;
-		},
-		render: function render() {
-			var array = this.filterList();
-			var contents = [React.createElement(DropBtn, {
-				currentVal: this.state.currentVal,
-				list: array,
-				onUserInput: this.handleUserInput,
-				onBlurInput: this.clearInput,
-				onKey: this.handleKey,
-				onEnter: this.handleEnter
-			}), React.createElement(DropList, {
-				list: array,
-				listIndex: this.state.listIndex,
-				onConfirm: this.handleKey
-			})];
-
-			return React.createElement(
-				'div',
-				{
-					ref: 'hahaha',
-					className: this.state.showFlag ? 'dropdown-wrap dropdown-active' : 'dropdown-wrap' },
-				contents
-			);
+			}, _this.handleKey = function (index) {
+				var ind = +index ? +index : +_this.state.listIndex;
+				var arr = _this.filterList();
+				var val = arr[ind].value,
+				    id = arr[ind].id;
+				_this.props.getSubList(_this.props.keyIndex, id, val);
+				_this.setState({
+					currentVal: val,
+					listIndex: ind
+				});
+			}, _this.handleEnter = function () {
+				_this.setState({
+					showFlag: false
+				});
+			}, _this.filterList = function () {
+				var array = [];
+				_this.props.list.forEach(function (list, index) {
+					if (list.value.indexOf(this.state.filterText) === -1) {
+						return;
+					}
+					array.push(list);
+				}.bind(_this));
+				return array;
+			}, _temp), _possibleConstructorReturn(_this, _ret);
 		}
-	});
 
-	module.exports = Drop;
+		_createClass(Drop, [{
+			key: 'componentWillMount',
+			value: function componentWillMount() {
+				document.body.addEventListener('click', function (e) {
+					if (this.refs.hahaha.querySelector('input') == e.target) {
+						this.setState({
+							showFlag: !this.state.showFlag,
+							listIndex: ''
+						});
+					} else {
+						this.setState({
+							showFlag: false
+						});
+					}
+				}.bind(this), false);
+			}
+			// 下拉联动时更新input里面的值
+
+		}, {
+			key: 'componentWillReceiveProps',
+			value: function componentWillReceiveProps() {
+				var index = this.props.keyIndex;
+				this.setState({
+					currentVal: this.props.currentVal[index] ? this.props.currentVal[index] : ''
+				});
+			}
+			// 处理用户输入后list的筛选
+
+			// 处理下拉列表点击状态更新
+
+			//input失焦的时候处理下拉数组
+
+			//处理键盘上下键操作以及下拉选项点选操作
+
+			//处理键盘回车事件
+
+			//过滤与输入文字匹配的项
+
+		}, {
+			key: 'render',
+			value: function render() {
+				var array = this.filterList();
+				var contents = [_react2.default.createElement(_DropBtn2.default, {
+					currentVal: this.state.currentVal,
+					list: array,
+					onUserInput: this.handleUserInput,
+					onBlurInput: this.clearInput,
+					onKey: this.handleKey,
+					onEnter: this.handleEnter
+				}), _react2.default.createElement(_DropList2.default, {
+					list: array,
+					listIndex: this.state.listIndex,
+					onConfirm: this.handleKey
+				})];
+				return _react2.default.createElement(
+					'div',
+					{
+						ref: 'hahaha',
+						className: this.state.showFlag ? 'dropdown-wrap dropdown-active' : 'dropdown-wrap' },
+					contents
+				);
+			}
+		}]);
+
+		return Drop;
+	}(_react.Component);
+
+	exports.default = Drop;
 
 /***/ },
 /* 174 */
@@ -21341,64 +21430,101 @@
 
 	'use strict';
 
-	var React = __webpack_require__(1);
-
-	var DropBtn = React.createClass({
-	    displayName: 'DropBtn',
-
-	    //返回input中输入的值
-	    handleChange: function handleChange() {
-	        this.props.onUserInput(this.refs.filterText.value);
-	    },
-	    //input失焦事件，调用drop中的clearInput
-	    clearInput: function clearInput() {
-	        var val = this.refs.filterText.value;
-	        this.props.onBlurInput(val);
-	    },
-	    componentWillMount: function componentWillMount() {
-	        var ind = '';
-	        document.body.addEventListener('keyup', function (e) {
-	            if (this.refs.filterText !== e.target) return;
-	            var val = this.refs.filterText.value;
-	            //返回选项中与input值匹配的索引值
-	            this.props.list.forEach(function (item, index) {
-	                if (item.value == val) {
-	                    ind = index;
-	                }
-	            });
-	            //监控键盘上下键及回车键
-	            switch (e.keyCode) {
-	                case 38:
-	                    ind = ind !== '' && ind > 0 ? --ind : this.props.list.length - 1;
-	                    this.props.onKey(ind);
-	                    break;
-	                case 40:
-	                    ind = ind !== '' && ind < this.props.list.length - 1 ? ++ind : 0;
-	                    this.props.onKey(ind);
-	                    break;
-	                case 13:
-	                    this.props.onEnter();
-	                    this.refs.filterText.blur();
-	                    break;
-	            }
-	        }.bind(this), false);
-	    },
-	    render: function render() {
-	        return React.createElement(
-	            'a',
-	            { href: 'javascript:;', className: 'dropdown-btn' },
-	            React.createElement('input', {
-	                type: 'text',
-	                value: this.props.currentVal,
-	                ref: 'filterText',
-	                onChange: this.handleChange,
-	                onBlur: this.clearInput
-	            })
-	        );
-	    }
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
 	});
 
-	module.exports = DropBtn;
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var DropBtn = function (_Component) {
+	    _inherits(DropBtn, _Component);
+
+	    function DropBtn() {
+	        var _Object$getPrototypeO;
+
+	        var _temp, _this, _ret;
+
+	        _classCallCheck(this, DropBtn);
+
+	        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	            args[_key] = arguments[_key];
+	        }
+
+	        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(DropBtn)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.handleChange = function () {
+	            _this.props.onUserInput(_this.refs.filterText.value);
+	        }, _this.clearInput = function () {
+	            var val = _this.refs.filterText.value;
+	            _this.props.onBlurInput(val);
+	        }, _temp), _possibleConstructorReturn(_this, _ret);
+	    }
+	    //返回input中输入的值
+
+	    //input失焦事件，调用drop中的clearInput
+
+
+	    _createClass(DropBtn, [{
+	        key: 'componentWillMount',
+	        value: function componentWillMount() {
+	            var ind = '';
+	            document.body.addEventListener('keyup', function (e) {
+	                if (this.refs.filterText !== e.target) return;
+	                var val = this.refs.filterText.value;
+	                //返回选项中与input值匹配的索引值
+	                this.props.list.forEach(function (item, index) {
+	                    if (item.value == val) {
+	                        ind = index;
+	                    }
+	                });
+	                //监控键盘上下键及回车键
+	                switch (e.keyCode) {
+	                    case 38:
+	                        ind = ind !== '' && ind > 0 ? --ind : this.props.list.length - 1;
+	                        this.props.onKey(ind);
+	                        break;
+	                    case 40:
+	                        ind = ind !== '' && ind < this.props.list.length - 1 ? ++ind : 0;
+	                        this.props.onKey(ind);
+	                        break;
+	                    case 13:
+	                        this.props.onEnter();
+	                        this.refs.filterText.blur();
+	                        break;
+	                }
+	            }.bind(this), false);
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'a',
+	                { href: 'javascript:;', className: 'dropdown-btn' },
+	                _react2.default.createElement('input', {
+	                    type: 'text',
+	                    value: this.props.currentVal,
+	                    ref: 'filterText',
+	                    onChange: this.handleChange,
+	                    onBlur: this.clearInput
+	                })
+	            );
+	        }
+	    }]);
+
+	    return DropBtn;
+	}(_react.Component);
+
+	exports.default = DropBtn;
 
 /***/ },
 /* 175 */
@@ -21406,38 +21532,74 @@
 
 	'use strict';
 
-	var React = __webpack_require__(1);
-
-	var DropList = React.createClass({
-	    displayName: 'DropList',
-
-	    //下拉选项选择操作，并返回index
-	    selectOption: function selectOption(e) {
-	        var id = e.target.getAttribute('data-id');
-	        this.props.onConfirm(+id);
-	    },
-	    render: function render() {
-	        var arr = [];
-	        this.props.list.forEach(function (list, index) {
-	            arr.push(React.createElement(
-	                'a',
-	                {
-	                    href: 'javascript:;',
-	                    className: this.props.listIndex === index ? 'dropdown-option dropdown-option-active' : 'dropdown-option',
-	                    'data-id': index,
-	                    onClick: this.selectOption },
-	                list.value
-	            ));
-	        }.bind(this));
-	        return React.createElement(
-	            'div',
-	            { className: 'dropdown-list' },
-	            arr
-	        );
-	    }
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
 	});
 
-	module.exports = DropList;
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var DropList = function (_Component) {
+	    _inherits(DropList, _Component);
+
+	    function DropList() {
+	        var _Object$getPrototypeO;
+
+	        var _temp, _this, _ret;
+
+	        _classCallCheck(this, DropList);
+
+	        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	            args[_key] = arguments[_key];
+	        }
+
+	        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(DropList)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.selectOption = function (e) {
+	            var id = e.target.getAttribute('data-id');
+	            _this.props.onConfirm(+id);
+	        }, _temp), _possibleConstructorReturn(_this, _ret);
+	    }
+	    //下拉选项选择操作，并返回index
+
+
+	    _createClass(DropList, [{
+	        key: 'render',
+	        value: function render() {
+	            var arr = [];
+	            this.props.list.forEach(function (list, index) {
+	                arr.push(_react2.default.createElement(
+	                    'a',
+	                    {
+	                        href: 'javascript:;',
+	                        key: index,
+	                        className: this.props.listIndex === index ? 'dropdown-option dropdown-option-active' : 'dropdown-option',
+	                        'data-id': index,
+	                        onClick: this.selectOption },
+	                    list.value
+	                ));
+	            }.bind(this));
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'dropdown-list' },
+	                arr
+	            );
+	        }
+	    }]);
+
+	    return DropList;
+	}(_react.Component);
+
+	exports.default = DropList;
 
 /***/ }
 /******/ ]);

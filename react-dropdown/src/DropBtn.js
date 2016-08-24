@@ -1,18 +1,18 @@
-var React = require('react');
+import React, {Component, PropTypes} from 'react';
 
-var DropBtn = React.createClass({
+class DropBtn extends Component {
     //返回input中输入的值
-	handleChange: function () {
+    handleChange = () => {
         this.props.onUserInput(
             this.refs.filterText.value
         );
-    },
+    }
     //input失焦事件，调用drop中的clearInput
-    clearInput: function () {
-    	var val = this.refs.filterText.value;
+    clearInput = () => {
+        var val = this.refs.filterText.value;
         this.props.onBlurInput(val);
-    },
-    componentWillMount: function () {
+    }
+    componentWillMount () {
         var ind = '';
         document.body.addEventListener('keyup', function (e) {
             if(this.refs.filterText !== e.target) return;
@@ -39,20 +39,20 @@ var DropBtn = React.createClass({
                     break;
             }    
         }.bind(this),false);
-    },
-	render: function () {
-		return (
-			<a href="javascript:;" className="dropdown-btn">
-				<input
+    }
+    render () {
+        return (
+            <a href="javascript:;" className="dropdown-btn">
+                <input
                     type="text"
                     value = {this.props.currentVal}
                     ref="filterText"
                     onChange={this.handleChange}
                     onBlur={this.clearInput}
                 />
-			</a>
-		)
-	}
-});
+            </a>
+        )
+    }
+}
 
-module.exports = DropBtn;
+export default DropBtn;

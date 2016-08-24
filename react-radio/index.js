@@ -10,7 +10,10 @@ var DATA = [
 ReactDOM.render(
 	(
         <div>
-            <RadioGroup options={DATA} name="fruit"></RadioGroup>
+            <RadioGroup
+                options={DATA}
+                name="fruit"
+            />
         </div>
     ),
 	document.getElementById('haha')

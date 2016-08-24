@@ -1,7 +1,7 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
+import React, {Component, PropTypes} from 'react';
+import ReactDOM from 'react-dom';
 
-var Linkage = require('./src/Linkage');
+import Linkage from './src/Linkage';
 //联动选项，有几个下拉，DATA包含几个数组，pid对应
 var DATA = {
     0:[

@@ -1,16 +1,17 @@
-var React = require('react');
+import React, {Component,PropTypes} from 'react';
+import Drop from './Drop';
 
-var Drop = require('./Drop');
-
-var Linkage = React.createClass({
-    getInitialState: function () {
-        return {
-            items: [],
-            choose: [],
-            currentVal: []
-        }
-    },
-    componentWillMount: function () {
+class Linkage extends Component {
+    static propTypes = {
+        data: React.PropTypes.object.isRequired,
+        count: React.PropTypes.number.isRequired
+    };
+    state = {
+        items: [],
+        choose: [],
+        currentVal: []
+    };
+    componentWillMount () {
         var num = this.props.count, initArr=[];
         //设置下拉数组，默认除第一个下拉，其余数组为空
         for(var i = 0;i<num;i++) {
@@ -19,11 +20,11 @@ var Linkage = React.createClass({
         this.setState({
             items: initArr
         });
-    },
-    getSelected: function () {
+    }
+    getSelected = () => {
         return this.state.currentVal;
-    },
-    _handleChange: function(index,id,val) {
+    }
+    _handleChange = (index,id,val) => {
         var choose = this.state.choose,
             newItems = this.state.items,
             currentVal = this.state.currentVal,
@@ -56,8 +57,8 @@ var Linkage = React.createClass({
             choose: choose,
             currentVal: currentVal
         });
-    },
-    render: function () {
+    }
+    render () {
         var arr = [];
         this.state.items.map(function (item,i) {
             arr.push(<Drop 
@@ -72,6 +73,6 @@ var Linkage = React.createClass({
             <div>{arr}</div>
         )
     }
-});
+}
 
-module.exports = Linkage;
+export default Linkage;

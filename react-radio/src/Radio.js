@@ -6,9 +6,6 @@ class Radios extends Component {
         value: this.props.item.value,
         checked: this.props.item.checked
     };
-    constructor (props) {
-        super(props);
-    }
     handleChange = (e) => {
         this.props.parentCallback(e.target.value);
     }

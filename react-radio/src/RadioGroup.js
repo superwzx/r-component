@@ -6,9 +6,9 @@ class RadioGroup extends Component {
         options: React.PropTypes.array.isRequired,
         name: React.PropTypes.string
     };
-    getDefaultprops () {
+    static defaultProps = {
         name: 'radio-'+new Date()
-    }
+    };
     state = {
         data: this.props.options,
         name: this.props.name
