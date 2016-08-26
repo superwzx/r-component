@@ -21550,8 +21550,8 @@
 	}(_react.Component);
 
 	RadioGroup.propTypes = {
-	    options: _react2.default.PropTypes.array.isRequired,
-	    name: _react2.default.PropTypes.string
+	    options: _react.PropTypes.array.isRequired,
+	    name: _react.PropTypes.string
 	};
 	RadioGroup.defaultProps = {
 	    name: 'radio-' + new Date()

@@ -2,11 +2,11 @@ import React, {Component, PropTypes} from 'react';
 
 class Avatar extends Component {
     static propTypes = {
-        src: React.PropTypes.string,
-        defaultSrc: React.PropTypes.string,
-        size: React.PropTypes.number,
-        icon: React.PropTypes.string,
-        background: React.PropTypes.string
+        src: PropTypes.string,
+        defaultSrc: PropTypes.string,
+        size: PropTypes.number,
+        icon: PropTypes.string,
+        background: PropTypes.string
     };
     static defaultProps = {
         size: 40,
