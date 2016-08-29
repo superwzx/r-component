@@ -63,7 +63,7 @@
 	_reactDom2.default.render(_react2.default.createElement(
 	    'div',
 	    null,
-	    _react2.default.createElement(_Icon2.default, { content: 'ion-ionic', color: 'blue', size: 24 })
+	    _react2.default.createElement(_Icon2.default, { content: 'ion-ionic', color: 'blue', size: 24, gap: '5px' })
 	), document.getElementById('haha'));
 
 /***/ },
@@ -21459,7 +21459,8 @@
 	            _this.style = {
 	                root: {
 	                    color: _this.props.color,
-	                    fontSize: _this.props.size
+	                    fontSize: _this.props.size,
+	                    margin: _this.props.gap
 	                }
 	            };
 	        }, _temp), _possibleConstructorReturn(_this, _ret);
@@ -21478,7 +21479,8 @@
 	Icon.propTypes = {
 	    content: _react.PropTypes.string.isRequired,
 	    color: _react.PropTypes.string,
-	    size: _react.PropTypes.number
+	    size: _react.PropTypes.number,
+	    gap: _react.PropTypes.string
 	};
 	Icon.defaultProps = {
 	    size: 16

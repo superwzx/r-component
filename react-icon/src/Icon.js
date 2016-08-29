@@ -4,7 +4,8 @@ class Icon extends Component {
     static propTypes = {
         content: PropTypes.string.isRequired,
         color: PropTypes.string,
-        size: PropTypes.number
+        size: PropTypes.number,
+        gap: PropTypes.string
     };
     static defaultProps = {
         size: 16
@@ -13,7 +14,8 @@ class Icon extends Component {
         this.style = {
             root: {
                 color: this.props.color,
-                fontSize: this.props.size
+                fontSize: this.props.size,
+                margin: this.props.gap
             }
         }
     }
