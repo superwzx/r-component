@@ -3,8 +3,8 @@ import Radios from './Radio';
 
 class RadioGroup extends Component {
     static propTypes = {
-        options: React.PropTypes.array.isRequired,
-        name: React.PropTypes.string
+        options: PropTypes.array.isRequired,
+        name: PropTypes.string
     };
     static defaultProps = {
         name: 'radio-'+new Date()

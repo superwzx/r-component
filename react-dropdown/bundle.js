@@ -21245,8 +21245,8 @@
 	}(_react.Component);
 
 	Linkage.propTypes = {
-	    data: _react2.default.PropTypes.object.isRequired,
-	    count: _react2.default.PropTypes.number.isRequired
+	    data: _react.PropTypes.object.isRequired,
+	    count: _react.PropTypes.number.isRequired
 	};
 	exports.default = Linkage;
 

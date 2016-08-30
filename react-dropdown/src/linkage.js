@@ -3,8 +3,8 @@ import Drop from './Drop';
 
 class Linkage extends Component {
     static propTypes = {
-        data: React.PropTypes.object.isRequired,
-        count: React.PropTypes.number.isRequired
+        data: PropTypes.object.isRequired,
+        count: PropTypes.number.isRequired
     };
     state = {
         items: [],
