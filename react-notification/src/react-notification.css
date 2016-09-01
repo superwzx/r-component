@@ -1,0 +1,32 @@
+.notification-main {
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+}
+.notification-wrap {
+    display: table;
+    width: 280px;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    border-radius: 3px;
+    opacity: 0;
+    transform: translateX(200%);
+    transition: all 0.3s ease-in-out;
+}
+.notification-active {
+    opacity: 1;
+    transform: translateX(0);
+}
+.notification-inner {
+    display: table-cell;
+    vertical-align: middle;
+}
+@media screen and (max-width: 480px) {
+    .notification-main {
+        position: fixed;
+        left: 50%;
+        bottom: 10px;
+        margin-left: -150px;
+    }
+}
