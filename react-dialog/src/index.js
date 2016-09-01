@@ -7,8 +7,6 @@ import Button from '../../react-button/src/Button';
  *
  * @param txt
  */
-
-
 const reactAlert = function(txt) {
 
 	let overlay = document.createElement('div');
@@ -27,6 +25,6 @@ const reactAlert = function(txt) {
 	let dialog = <Dialog buttons={buttons}>OK</Dialog>;
 
 	ReactDOM.render(dialog, overlay);
-}
+};
 
 export default reactAlert;

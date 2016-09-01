@@ -21609,7 +21609,6 @@
 	 *
 	 * @param txt
 	 */
-
 	var reactAlert = function reactAlert(txt) {
 
 		var overlay = document.createElement('div');
