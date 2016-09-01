@@ -1,3 +1,24 @@
-var React = require('react');
-var ReactDom = require('react-dom');
-var Dialog = require('./src/Dialog');
+import React, {Component,PropTypes} from 'react';
+import ReactDOM from 'react-dom';
+import Button from '../react-button/src/Button';
+
+import reactAlert from './src/index';
+
+const showDialog = () => {reactAlert('Hello')};
+
+ReactDOM.render(
+	(
+		<div>
+			<Button
+				className="button"
+				size="lg"
+				color="primary"
+				disabled={false}
+				mouseUp={showDialog}
+			>
+				Hello World
+			</Button>
+		</div>
+	),
+	document.getElementById('haha')
+);

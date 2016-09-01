@@ -1,105 +1,76 @@
 
-let React = require('react');
-let ReactDom = require('react-dom');
+import React, {Component, PropTypes} from 'react';
 
+class Dialog extends Component {
+	
+	static propTypes = {
+		title: PropTypes.string,
+		width: PropTypes.string,
+		buttons: PropTypes.array,
+		children: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+		style: PropTypes.object
+	};
 
-let Dialog = React.createClass({
-
-	getInitialState () {
-
-		const defaults = {
-			title: '',
-			content: '',
-			buttons: [{
-				short: 'OK',
-				name: '确定',
-				className: '',
-				handle: (e) => {}
-			}, {
-				short: 'CANCEL',
-				name: '取消',
-				className: '',
-				handle: (e) => {}
-			}]
-		};
-
-		const config = Object.assign({}, defaults, this.props);
-
-		return {
-			title: config.title,
-			content: config.content,
-			buttons: config.buttons,
-			status: false
+	static defaultProps = {
+		title: 'Dialog',
+		style: {
+			dialog: {
+				width: '600px'
+			},
+			header: {
+				fontSize: '18px'
+			},
+			content: {
+				fontSize: '14px'
+			},
+			footer: {
+				fontSize: '14px'
+			}
 		}
-	},
-
-	componentWillMount () {
-
-	},
+	};
 
 	render () {
+		const {
+			title,
+			buttons,
+			children,
+			style,
+			...other
+		} = this.props;
 
-		let dialog;
+		const header = (
+			<section style={style.header}>
+				<h3>{title}</h3>
+			</section>
+		);
 
-		if (this.state.status) {
+		const content = (
+			<section style={style.content}>
+				{children}
+			</section>
+		);
 
-			const title = (
-				<div className="dialog-title">
-					<h3>
-						{this.state.title}
-					</h3>
-				</div>
-			);
+		const footer = (
+			<section style={style.footer}>
+				{buttons}
+			</section>
+		);
 
-			const content = (
-				<div className="dialog-content">
-					{this.state.content}
-				</div>
-			);
-
-			const buttons = (
-				<div className="dialog-buttons">
-					{
-						this.state.buttons.map(function (item) {
-							return (
-								<button onClick={item.handle}>
-									item.name
-								</button>
-							)
-						})
-					}
-				</div>
-			);
-
-			dialog = (
-				<div>
-					<div className="dialog">
-						<div className="dialog-inner">
-							{title}
-							{content}
-							{buttons}
-						</div>
-					</div>
-				</div>
-			);
-
-		} else {
-			dialog = (
-				<div></div>
-			)
-		}
-
-		const mask = (
-			<div className="dialog-mask"></div>
+		const dialog = (
+			<div style={style.dialog}>
+				{header}
+				{content}
+				{footer}
+			</div>
 		);
 
 		return (
-			<div className="dialog-wrap">
-				{mask}
+			<div style={style.wrap} {...other}>
 				{dialog}
 			</div>
 		)
 	}
-});
+}
 
-module.exports = Dialog;
+
+export default Dialog;

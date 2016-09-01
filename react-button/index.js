@@ -7,7 +7,8 @@ import Buttons from './src/Button';
 const config = {
     color:'#fff',
     backgroundColor:'black'
-}                                                                                                                                                                    
+};
+
 ReactDOM.render(
 	(
         <div>
