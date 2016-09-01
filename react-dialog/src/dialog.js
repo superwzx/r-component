@@ -14,20 +14,62 @@ class Dialog extends Component {
 	static defaultProps = {
 		title: 'Dialog',
 		style: {
+			wrap: {
+				position: 'fixed',
+				top: '0',
+				left: '0',
+				width: '100%',
+				height: '100%',
+				zIndex: '99'
+			},
 			dialog: {
-				width: '600px'
+				width: '320px',
+				margin: '0 auto',
+				position: 'relative',
+				backgroundColor: '#fff'
 			},
 			header: {
-				fontSize: '18px'
+				fontSize: '16px',
+				fontWeight: '600',
+				color: '#666',
+				padding: '12px'
 			},
 			content: {
-				fontSize: '14px'
+				fontSize: '16px',
+				textAlign: 'center',
+				padding: '20px 12px'
 			},
 			footer: {
-				fontSize: '14px'
+				fontSize: '14px',
+				textAlign: 'right',
+				padding: '12px'
 			}
 		}
 	};
+
+	state = {
+		status: true
+	};
+
+	open () {
+		this.setState({
+			status: true
+		});
+	}
+
+	close () {
+		this.setState({
+			status: false
+		});
+	}
+
+	destroy () {
+
+	}
+
+	componentWillUnmount () {
+		console.log('123');
+	}
 
 	render () {
 		const {

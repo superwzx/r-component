@@ -4,7 +4,7 @@ import Button from '../react-button/src/Button';
 
 import reactAlert from './src/index';
 
-const showDialog = () => {reactAlert('Hello')};
+const showDialog = () => {reactAlert('Hello Word!')};
 
 ReactDOM.render(
 	(
