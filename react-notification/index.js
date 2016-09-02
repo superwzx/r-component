@@ -1,16 +1,28 @@
 import React, {Component,PropTypes} from 'react';
 import ReactDOM from 'react-dom';
 
+import Buttons from '../react-button/src/Button.js';
+import showNotice from './src/index';
 
-import Notification from './src/notification.js';
-
-const config = {};
+const config1 = {
+    color: 'error',
+    custom: {},
+    content: '你猜'
+};
+const config2 = {
+    color: 'success',
+    custom: {},
+    content: '你猜1'
+};
+const showAlert = (event,param) => {
+    showNotice(param);
+};
 
 ReactDOM.render(
 	(
         <div>
-            <Notification color="success" custom={config}>你猜你猜你猜</Notification>
-            <Notification color="error" custom={config}>你猜你猜你猜1</Notification>
+            <Buttons className="button" size="md" color="primary" click={showAlert} param={config1}>click</Buttons>
+            <Buttons className="button" size="md" color="primary" click={showAlert} param={config2}>click1</Buttons>
         </div>
     ),
 	document.getElementById('haha')

@@ -12,7 +12,8 @@ class Buttons extends Component {
         block: PropTypes.bool,
         mouseUp: PropTypes.func,
         click: PropTypes.func,
-        mouseLeave: PropTypes.func
+        mouseLeave: PropTypes.func,
+        param: PropTypes.object
     };
     static defaultProps = {
         size: 'md',
@@ -27,14 +28,14 @@ class Buttons extends Component {
         if(this.props.href) {
             window.location.href = this.props.href;
         } else if(this.props.click) {
-            this.props.click(event);
+            this.props.click(event,this.props.param);
         }
     }
     handleMouseUp = (event) => {
-        if(this.props.mouseUp) this.props.mouseUp(event);
+        if(this.props.mouseUp) this.props.mouseUp(event,this.props.param);
     }
     handleMouseLeave = (event) => {
-        if(this.props.mouseLeave) this.props.mouseLeave(event);
+        if(this.props.mouseLeave) this.props.mouseLeave(event,this.props.param);
     }
     render () {
         var size = Styles.size[this.props.size];
