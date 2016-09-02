@@ -1,12 +1,12 @@
 import React, {Component, PropTypes} from 'react';
+import ReactDOM from 'react-dom';
 import config from './style.config';
-
-import Buttons from '../../react-button/src/Button.js';
 
 class Notification extends Component {
     static propTypes = {
         color: PropTypes.string,
-        custom: PropTypes.object
+        custom: PropTypes.object,
+        removeDom: PropTypes.object
     };
     static defaultProps = {
         color: 'success'
@@ -14,7 +14,7 @@ class Notification extends Component {
     state = {
         active: false
     };
-    handleChange = () => {
+    componentWillMount () {
         if(this.state.active) return;
         setTimeout(function () {
             this.setState({
@@ -22,26 +22,22 @@ class Notification extends Component {
             });
         }.bind(this),0);
     }
-    componentDidUpdate () {
+    componentDidMount () {
         setTimeout(function () {
             this.setState({
                 active: false
             });
-        }.bind(this),3000);
+        }.bind(this),4000);
+        setTimeout(function () {
+            ReactDOM.unmountComponentAtNode(this.props.removeDom);
+            this.props.removeDom.parentNode.removeChild(this.props.removeDom);
+        }.bind(this),5000);
     }
     render () {
         var style = Object.assign({},config.color[this.props.color], this.props.custom);
         return (
-            <div>
-                <Buttons className="button" size="md" color="primary" click={this.handleChange}>
-                    click
-                </Buttons>
-                <div className="notification-main">
-                    <div className={this.state.active?"notification-wrap notification-active":"notification-wrap"} style={style}>
-                        <div className="notification-inner">{this.props.children}</div>
-                    </div>
-                </div>
-                
+            <div className={this.state.active?"notification-wrap notification-active":"notification-wrap notification-hidden"} style={style}>
+                <div className="notification-inner">{this.props.children}</div>
             </div>
         )
     }
