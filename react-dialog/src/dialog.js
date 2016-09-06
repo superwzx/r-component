@@ -68,7 +68,7 @@ class Dialog extends Component {
 	}
 
 	componentWillUnmount () {
-		console.log('123');
+		// console.log('123');
 	}
 
 	render () {
