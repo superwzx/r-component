@@ -21527,10 +21527,11 @@
 	            var _props = this.props;
 	            var outerCustom = _props.outerCustom;
 	            var innerCustom = _props.innerCustom;
+	            var pointCustom = _props.pointCustom;
 	            var background = _props.background;
 	            var percent = _props.percent;
 
-	            var other = _objectWithoutProperties(_props, ['outerCustom', 'innerCustom', 'background', 'percent']);
+	            var other = _objectWithoutProperties(_props, ['outerCustom', 'innerCustom', 'pointCustom', 'background', 'percent']);
 
 	            var innerStyle = Object.assign({}, innerCustom, { width: percent + '%', background: background });
 	            var pointStyle = Object.assign({}, pointCustom, { left: percent + '%', background: background });

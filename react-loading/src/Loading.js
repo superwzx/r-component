@@ -44,6 +44,7 @@ class Loading extends Component {
         const {
             outerCustom,
             innerCustom,
+            pointCustom,
             background,
             percent,
             ...other
