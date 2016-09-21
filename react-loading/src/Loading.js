@@ -14,7 +14,7 @@ class Loading extends Component {
     componentDidMount = () => {
         let start = 0, end = 0;
         const dom = document.querySelector('.loading-point');
-        const mouseMove = function (event) {
+        let mouseMove = function (event) {
             event.preventDefault();
             let outWidth = document.querySelector('.loading-wrap').clientWidth;
             let left = dom.offsetLeft + dom.clientWidth/2;
@@ -38,7 +38,9 @@ class Loading extends Component {
             event.preventDefault();
             dom.removeEventListener('mousemove', mouseMove, false);
         }, false);
-
+        dom.addEventListener('mouseout', function () {
+            dom.removeEventListener('mousemove', mouseMove, false);
+        }, false);
     }
     render () {
         const {
