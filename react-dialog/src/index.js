@@ -7,63 +7,24 @@ import Button from '../../react-button/src/Button';
  *
  * @param txt
  */
-const reactAlert = txt => {
+const reactAlert = function(txt) {
+
+	let overlay = document.createElement('div');
+
+	let close = () => {
+		ReactDOM.unmountComponentAtNode(overlay);
+		overlay.parentNode.removeChild(overlay);
+	};
+
 	let buttons = [
-		<Button size="lg">Ok</Button>
+		<Button size="sm" mouseUp={close}>{txt}</Button>
 	];
-	let overlay = document.createElement('div');
+
 	document.body.appendChild(overlay);
-	ReactDOM.render(
-		<Dialog
-			buttons={buttons}
-		>
-			{txt}
-		</Dialog>,
-		overlay
-	);
+
+	let dialog = <Dialog buttons={buttons}>OK</Dialog>;
+
+	ReactDOM.render(dialog, overlay);
 };
 
-
-/**
- *
- * @param config
- */
-const reactConfirm = (config) => {
-	let buttons = [
-		<Button size="log">Ok</Button>,
-		<Button size="log">Cancel</Button>
-	];
-	let overlay = document.createElement('div');
-	document.body.appendChild(overlay);
-	ReactDOM.render(
-		<Dialog
-			{buttons}
-		>
-			{config.content}
-		</Dialog>
-	);
-};
-
-
-/**
- *
- * @param config
- */
-const reactModal = (config) => {
-	let buttons = Object.assign([
-		<Button size="log">Ok</Button>,
-		<Button size="log">Cancel</Button>
-	], config.buttons);
-	let overlay = document.createElement('div');
-	document.body.appendChild(overlay);
-	ReactDOM.render(
-		<Dialog
-			{buttons}
-		>
-			{config.content}
-		</Dialog>
-	);
-};
-
-
-export default {reactAlert, reactConfirm, reactModal};
+export default reactAlert;
