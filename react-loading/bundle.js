@@ -21518,6 +21518,9 @@
 	                event.preventDefault();
 	                dom.removeEventListener('mousemove', mouseMove, false);
 	            }, false);
+	            dom.addEventListener('mouseout', function () {
+	                dom.removeEventListener('mousemove', mouseMove, false);
+	            }, false);
 	        }, _temp), _possibleConstructorReturn(_this, _ret);
 	    }
 
