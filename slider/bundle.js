@@ -21476,64 +21476,6 @@
 				args[_key] = arguments[_key];
 			}
 
-<<<<<<< Updated upstream:react-loading/bundle.js
-	        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Loading.__proto__ || Object.getPrototypeOf(Loading)).call.apply(_ref, [this].concat(args))), _this), _this.componentDidMount = function () {
-	            var start = 0,
-	                end = 0;
-	            var dom = document.querySelector('.loading-point');
-	            var mouseMove = function mouseMove(event) {
-	                event.preventDefault();
-	                var outWidth = document.querySelector('.loading-wrap').clientWidth;
-	                var left = dom.offsetLeft + dom.clientWidth / 2;
-	                end = event.offsetX;
-	                var distance = end - start + left;
-	                if (distance < 0) {
-	                    distance = 0;
-	                } else if (distance > outWidth) {
-	                    distance = outWidth;
-	                }
-	                dom.style.left = distance + 'px';
-	                document.querySelector('.loading-inner').style.width = distance + 'px';
-	            };
-	            dom.addEventListener('mousedown', function (event) {
-	                event.preventDefault();
-	                start = event.offsetX;
-	                dom.addEventListener('mousemove', mouseMove, false);
-	            }, false);
-
-	            dom.addEventListener('mouseup', function (event) {
-	                event.preventDefault();
-	                dom.removeEventListener('mousemove', mouseMove, false);
-	            }, false);
-	            dom.addEventListener('mouseout', function () {
-	                dom.removeEventListener('mousemove', mouseMove, false);
-	            }, false);
-	        }, _temp), _possibleConstructorReturn(_this, _ret);
-	    }
-
-	    _createClass(Loading, [{
-	        key: 'render',
-	        value: function render() {
-	            var _props = this.props;
-	            var outerCustom = _props.outerCustom;
-	            var innerCustom = _props.innerCustom;
-	            var pointCustom = _props.pointCustom;
-	            var background = _props.background;
-	            var percent = _props.percent;
-
-	            var other = _objectWithoutProperties(_props, ['outerCustom', 'innerCustom', 'pointCustom', 'background', 'percent']);
-
-	            var innerStyle = Object.assign({}, innerCustom, { width: percent + '%', background: background });
-	            var pointStyle = Object.assign({}, pointCustom, { left: percent + '%', background: background });
-	            return _react2.default.createElement(
-	                'div',
-	                { className: 'loading-wrap', style: outerCustom },
-	                _react2.default.createElement('div', { className: 'loading-inner', style: innerStyle }),
-	                _react2.default.createElement('div', { className: 'loading-point', style: pointStyle })
-	            );
-	        }
-	    }]);
-=======
 			return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Slider.__proto__ || Object.getPrototypeOf(Slider)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
 				percent: 0
 			}, _this.handleMouseDown = function (e) {
@@ -21650,7 +21592,6 @@
 				);
 			}
 		}]);
->>>>>>> Stashed changes:slider/bundle.js
 
 		return Slider;
 	}(_react.Component);
