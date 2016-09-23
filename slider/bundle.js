@@ -21462,6 +21462,11 @@
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Created by f2e on 16/9/22.
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 
+	var isTouch = 'ontouchstart' in window,
+	    eStart = isTouch ? 'touchstart' : 'mousedown',
+	    eMove = isTouch ? 'touchmove' : 'mousemove',
+	    eEnd = isTouch ? 'touchend' : 'mouseup';
+
 	var Slider = function (_Component) {
 		_inherits(Slider, _Component);
 
@@ -21479,7 +21484,7 @@
 			return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Slider.__proto__ || Object.getPrototypeOf(Slider)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
 				percent: 0
 			}, _this.handleMouseDown = function (e) {
-				document.addEventListener('mousemove', _this.slide);
+				document.addEventListener(eMove, _this.slide);
 				e.preventDefault();
 			}, _this.bar = null, _this.track = null, _this.slide = function (e) {
 
@@ -21547,8 +21552,8 @@
 				this.actual();
 
 				// 注册document mouseUp监听事件
-				document.addEventListener('mouseup', function (e) {
-					document.removeEventListener('mousemove', _this2.slide);
+				document.addEventListener(eEnd, function (e) {
+					document.removeEventListener(eMove, _this2.slide);
 				});
 
 				// 注册window resize事件
@@ -21587,7 +21592,7 @@
 							},
 							style: Object.assign(this.style.track, { width: this.state.percent + '%' })
 						},
-						_react2.default.createElement('div', { onMouseDown: this.handleMouseDown, style: this.style.handle })
+						_react2.default.createElement('div', { onMouseDown: this.handleMouseDown, onTouchStart: this.handleMouseDown, style: this.style.handle })
 					)
 				);
 			}

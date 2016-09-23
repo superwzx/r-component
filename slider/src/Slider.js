@@ -4,7 +4,10 @@
 
 import React, {Component, PropTypes} from 'react';
 
-
+let isTouch = 'ontouchstart' in window,
+        eStart = isTouch ? 'touchstart' : 'mousedown',
+        eMove = isTouch ? 'touchmove' : 'mousemove',
+        eEnd = isTouch ? 'touchend' : 'mouseup';
 class Slider extends Component {
 	static propTypes = {
 		barColor: PropTypes.string,
@@ -22,14 +25,14 @@ class Slider extends Component {
 	state = {
 		percent: 0
 	};
-
+	
 	componentDidMount () {
 		// 获取插件的宽度
 		this.actual();
 
 		// 注册document mouseUp监听事件
-		document.addEventListener('mouseup', e => {
-			document.removeEventListener('mousemove', this.slide);
+		document.addEventListener(eEnd, e => {
+			document.removeEventListener(eMove, this.slide);
 		});
 
 		// 注册window resize事件
@@ -45,7 +48,7 @@ class Slider extends Component {
 	}
 
 	handleMouseDown = e => {
-		document.addEventListener('mousemove', this.slide);
+		document.addEventListener(eMove, this.slide);
 		e.preventDefault();
 	};
 
@@ -126,7 +129,7 @@ class Slider extends Component {
 					ref={node => this.track = node}
 					style={Object.assign(this.style.track, {width: `${this.state.percent}%`})}
 				>
-					<div onMouseDown={this.handleMouseDown} style={this.style.handle}>
+					<div onMouseDown={this.handleMouseDown} onTouchStart={this.handleMouseDown} style={this.style.handle}>
 					</div>
 				</div>
 			</div>
