@@ -3,24 +3,80 @@
  */
 
 import React, {Component, PropTypes} from 'react';
+import StyleSheet from 'react-style';
 
+console.log(StyleSheet)
+
+const styles = StyleSheet.create({
+	bar: {
+		backgroundColor: '#ccc',
+		position: 'relative',
+		width: '100%',
+		height: '6px',
+		borderRadius: '10px',
+		cursor: 'pointer'
+	},
+	track: {
+		backgroundColor: 'rgb(32, 160, 209)',
+		borderRadius: '10px',
+		height: '100%',
+		maxWidth: '100%',
+		position: 'relative',
+		transition: 'width 0.1s ease'
+	},
+	leftHandle: {
+		//backgroundColor: 'rgb(32, 160, 209)',
+		backgroundColor: 'rgb(0, 255, 0, .3)',
+		boxShadow: '0 0 13px rgba(0, 0, 0, .3)',
+		position: 'absolute',
+		top: '-8px',
+		left: '-10px',
+		width: '20px',
+		height: '20px',
+		borderRadius: '50%',
+		cursor: 'pointer',
+		marginLeft: '0%',
+		marginRight: '0%',
+		zIndex: '2'
+	},
+	rightHandle: {
+		//backgroundColor: 'rgb(32, 160, 209)',
+		backgroundColor: 'rgb(255, 0, 0, .5)',
+		boxShadow: '0 0 13px rgba(0, 0, 0, .3)',
+		position: 'absolute',
+		top: '-8px',
+		right: '-10px',
+		width: '20px',
+		height: '20px',
+		borderRadius: '50%',
+		cursor: 'pointer',
+		zIndex: '3'
+	}
+});
 
 class Slider extends Component {
+
 	static propTypes = {
 		barColor: PropTypes.string,
 		disabled: PropTypes.bool,
 		width: PropTypes.string,
 		trackColor: PropTypes.string,
-		percent: PropTypes.number
+		percent: PropTypes.number,
+		type: PropTypes.string,
+		leftHandlePercent: PropTypes.number,
+		rightHandlePercent: PropTypes.number
 	};
 
 	static defaultProps = {
 		disabled: false,
-		percent: 0
+		percent: 0,
+		type: 'normal'
 	};
 
 	state = {
-		percent: 0
+		percent: 0,
+		leftHandlePercent: 0,
+		rightHandlePercent: 100
 	};
 
 	componentDidMount () {
@@ -45,13 +101,25 @@ class Slider extends Component {
 	}
 
 	handleMouseDown = e => {
+		this.activeHandle = e.target;
 		document.addEventListener('mousemove', this.slide);
+		e.preventDefault();
+	};
+
+	handleMouseUp = e => {
+		this.activeHandle = null;
 		e.preventDefault();
 	};
 
 	bar = null;
 
 	track = null;
+
+	leftHandle = null;
+
+	rightHandle = null;
+
+	activeHandle = null;
 
 	slide = e => {
 
@@ -68,9 +136,24 @@ class Slider extends Component {
 
 		percent = (distance / this.width  * 100).toFixed(0);
 
-		this.setState({
-			percent: percent
-		});
+		if (this.activeHandle === this.leftHandle) {
+
+			if (percent > this.state.rightHandlePercent) {
+				percent = this.state.rightHandlePercent;
+			}
+			this.setState({
+				leftHandlePercent: percent
+			});
+
+		} else if (this.activeHandle === this.rightHandle) {
+			if (percent < this.state.leftHandlePercent) {
+				percent = this.state.leftHandlePercent;
+			}
+			this.setState({
+				rightHandlePercent: percent
+			});
+		}
+
 	};
 
 	handleClick = e => {
@@ -84,49 +167,42 @@ class Slider extends Component {
 	};
 
 	style = {
-		bar: {
-			backgroundColor: '#ccc',
-			position: 'relative',
-			width: '100%',
-			height: '6px',
-			borderRadius: '10px',
-			cursor: 'pointer'
-		},
-		track: {
-			backgroundColor: 'rgb(32, 160, 209)',
-			borderRadius: '10px',
-			height: '100%',
-			maxWidth: '100%',
-			position: 'relative',
-			transition: 'width 0.1s ease'
-		},
-		handle: {
-			backgroundColor: 'rgb(32, 160, 209)',
-			boxShadow: '0 0 13px rgba(0, 0, 0, .3)',
-			position: 'absolute',
-			top: '-8px',
-			right: '-12px',
-			width: '20px',
-			height: '20px',
-			borderRadius: '50%',
-			cursor: 'pointer'
-		}
+
 	};
 
 	render () {
 		const {...other} = this.props;
 
+		let current = {
+			marginLeft: this.state.leftHandlePercent + '%',
+			marginRight: (100 - this.state.rightHandlePercent) + '%'
+		};
+
 		return (
 			<div
 				ref={node => this.bar = node}
 				onClick={this.handleClick}
-			    style={this.style.bar}
+			    //styles={[styles.bar]}
 			>
 				<div
+					//styles={[styles.track]}
 					ref={node => this.track = node}
-					style={Object.assign(this.style.track, {width: `${this.state.percent}%`})}
 				>
-					<div onMouseDown={this.handleMouseDown} style={this.style.handle}>
+					<div
+						//styles={[styles.leftHandle]}
+						ref={node => this.leftHandle = node}
+						onMouseDown={this.handleMouseDown}
+						onMouseUp={this.handleMouseUp}
+					>
+						{this.state.leftHandlePercent}
+					</div>
+					<div
+						//styles={[styles.rightHandle]}
+						ref={node => this.rightHandle = node}
+						onMouseDown={this.handleMouseDown}
+						onMouseUp={this.handleMouseUp}
+					>
+						{this.state.rightHandlePercent}
 					</div>
 				</div>
 			</div>
