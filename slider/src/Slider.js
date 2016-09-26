@@ -3,7 +3,7 @@
  */
 
 import React, {Component, PropTypes} from 'react';
-import { StyleSheet, css } from 'aphrodite';
+import {StyleSheet, css} from 'aphrodite';
 
 const styles = StyleSheet.create({
 	bar: {
