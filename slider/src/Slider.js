@@ -3,9 +3,7 @@
  */
 
 import React, {Component, PropTypes} from 'react';
-import StyleSheet from 'react-style';
-
-console.log(StyleSheet)
+import { StyleSheet, css } from 'aphrodite';
 
 const styles = StyleSheet.create({
 	bar: {
@@ -25,8 +23,7 @@ const styles = StyleSheet.create({
 		transition: 'width 0.1s ease'
 	},
 	leftHandle: {
-		//backgroundColor: 'rgb(32, 160, 209)',
-		backgroundColor: 'rgb(0, 255, 0, .3)',
+		backgroundColor: 'rgb(32, 160, 209)',
 		boxShadow: '0 0 13px rgba(0, 0, 0, .3)',
 		position: 'absolute',
 		top: '-8px',
@@ -39,9 +36,13 @@ const styles = StyleSheet.create({
 		marginRight: '0%',
 		zIndex: '2'
 	},
+	leftHandleTip: {
+		transform: 'translateY(-18px)',
+		width: '100%',
+		textAlign: 'center'
+	},
 	rightHandle: {
-		//backgroundColor: 'rgb(32, 160, 209)',
-		backgroundColor: 'rgb(255, 0, 0, .5)',
+		backgroundColor: 'rgb(32, 160, 209)',
 		boxShadow: '0 0 13px rgba(0, 0, 0, .3)',
 		position: 'absolute',
 		top: '-8px',
@@ -51,6 +52,11 @@ const styles = StyleSheet.create({
 		borderRadius: '50%',
 		cursor: 'pointer',
 		zIndex: '3'
+	},
+	rightHandleTip: {
+		transform: 'translateY(24px)',
+		width: '100%',
+		textAlign: 'center'
 	}
 });
 
@@ -61,22 +67,22 @@ class Slider extends Component {
 		disabled: PropTypes.bool,
 		width: PropTypes.string,
 		trackColor: PropTypes.string,
-		percent: PropTypes.number,
 		type: PropTypes.string,
-		leftHandlePercent: PropTypes.number,
-		rightHandlePercent: PropTypes.number
+		min: PropTypes.number,
+		max: PropTypes.number
 	};
 
 	static defaultProps = {
 		disabled: false,
-		percent: 0,
+		min: 0,
+		max: 100,
 		type: 'normal'
 	};
 
 	state = {
 		percent: 0,
-		leftHandlePercent: 0,
-		rightHandlePercent: 100
+		leftHandlePercent: this.props.min,
+		rightHandlePercent: this.props.max
 	};
 
 	componentDidMount () {
@@ -97,7 +103,7 @@ class Slider extends Component {
 	actual () {
 		let bar = this.bar;
 		this.width = bar.offsetWidth;
-		this.offsetX =  bar.offsetLeft;
+		this.offsetX = bar.offsetLeft;
 	}
 
 	handleMouseDown = e => {
@@ -127,20 +133,17 @@ class Slider extends Component {
 			distance,
 			percent;
 
-		if (pageX < this.offsetX) {
-			distance = 0;
-		} else {
-			var x = pageX - this.offsetX;
-			distance = x > this.width ? this.width : x;
-		}
+		distance = (pageX < this.offsetX) ? 0 :
+			(pageX > (this.offsetX + this.width) ) ? this.width :
+				(pageX - this.offsetX);
 
-		percent = (distance / this.width  * 100).toFixed(0);
+		percent = Math.ceil( (distance / this.width) * 100 );
 
 		if (this.activeHandle === this.leftHandle) {
-
 			if (percent > this.state.rightHandlePercent) {
 				percent = this.state.rightHandlePercent;
 			}
+
 			this.setState({
 				leftHandlePercent: percent
 			});
@@ -149,6 +152,7 @@ class Slider extends Component {
 			if (percent < this.state.leftHandlePercent) {
 				percent = this.state.leftHandlePercent;
 			}
+
 			this.setState({
 				rightHandlePercent: percent
 			});
@@ -166,10 +170,6 @@ class Slider extends Component {
 		});
 	};
 
-	style = {
-
-	};
-
 	render () {
 		const {...other} = this.props;
 
@@ -182,27 +182,32 @@ class Slider extends Component {
 			<div
 				ref={node => this.bar = node}
 				onClick={this.handleClick}
-			    //styles={[styles.bar]}
+			    className={css(styles.bar)}
 			>
 				<div
-					//styles={[styles.track]}
+					className={css(styles.track)}
+					style={current}
 					ref={node => this.track = node}
 				>
 					<div
-						//styles={[styles.leftHandle]}
+						className={css(styles.leftHandle)}
 						ref={node => this.leftHandle = node}
 						onMouseDown={this.handleMouseDown}
 						onMouseUp={this.handleMouseUp}
 					>
-						{this.state.leftHandlePercent}
+						<div className={css(styles.leftHandleTip)}>
+							{this.state.leftHandlePercent}
+						</div>
 					</div>
 					<div
-						//styles={[styles.rightHandle]}
+						className={css(styles.rightHandle)}
 						ref={node => this.rightHandle = node}
 						onMouseDown={this.handleMouseDown}
 						onMouseUp={this.handleMouseUp}
 					>
-						{this.state.rightHandlePercent}
+						<div  className={css(styles.rightHandleTip)}>
+							{this.state.rightHandlePercent}
+						</div>
 					</div>
 				</div>
 			</div>

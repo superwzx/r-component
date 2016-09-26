@@ -8,6 +8,6 @@ import Slider from './src/Slider.js';
 
 ReactDOM.render(
 	<div>
-		<Slider percent={10} />
+		<Slider min={10} max={90} />
 	</div>, document.getElementById('content')
 );
