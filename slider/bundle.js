@@ -21510,26 +21510,38 @@
 				rightHandlePercent: _this.props.max
 			}, _this.handleMouseDown = function (e) {
 				_this.activeHandle = e.target;
+				_this.originPageX = e.pageX;
+				if (_this.activeHandle === _this.leftHandle) {
+					_this.originLeftHandleX = _this.track.offsetLeft;
+				} else if (_this.activeHandle === _this.rightHandle) {
+					_this.originLeftHandleX = _this.track.offsetLeft + _this.track.offsetWidth;
+				}
 				document.addEventListener('mousemove', _this.slide);
 				e.preventDefault();
 			}, _this.handleMouseUp = function (e) {
 				_this.activeHandle = null;
 				e.preventDefault();
-			}, _this.bar = null, _this.track = null, _this.leftHandle = null, _this.rightHandle = null, _this.activeHandle = null, _this.slide = function (e) {
-
+			}, _this.bar = null, _this.track = null, _this.leftHandle = null, _this.rightHandle = null, _this.activeHandle = null, _this.originPageX = null, _this.originLeftHandleX = null, _this.slide = function (e) {
 				var pageX = e.pageX,
 				    distance = void 0,
 				    percent = void 0;
 
-				distance = pageX < _this.offsetX ? 0 : pageX > _this.offsetX + _this.width ? _this.width : pageX - _this.offsetX;
+				distance = pageX - _this.originPageX + _this.originLeftHandleX;
 
-				percent = Math.ceil(distance / _this.width * 100);
+				if (distance < 0) {
+					distance = 0;
+				}
+
+				percent = Math.ceil(distance / _this.bar.offsetWidth * 100);
+
+				if (percent > 100) {
+					percent = 100;
+				}
 
 				if (_this.activeHandle === _this.leftHandle) {
 					if (percent > _this.state.rightHandlePercent) {
 						percent = _this.state.rightHandlePercent;
 					}
-
 					_this.setState({
 						leftHandlePercent: percent
 					});
@@ -21537,7 +21549,6 @@
 					if (percent < _this.state.leftHandlePercent) {
 						percent = _this.state.leftHandlePercent;
 					}
-
 					_this.setState({
 						rightHandlePercent: percent
 					});

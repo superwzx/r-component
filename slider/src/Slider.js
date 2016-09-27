@@ -108,6 +108,12 @@ class Slider extends Component {
 
 	handleMouseDown = e => {
 		this.activeHandle = e.target;
+		this.originPageX = e.pageX;
+		if (this.activeHandle === this.leftHandle) {
+			this.originLeftHandleX = this.track.offsetLeft;
+		} else if (this.activeHandle === this.rightHandle) {
+			this.originLeftHandleX = this.track.offsetLeft + this.track.offsetWidth;
+		}
 		document.addEventListener('mousemove', this.slide);
 		e.preventDefault();
 	};
@@ -127,37 +133,43 @@ class Slider extends Component {
 
 	activeHandle = null;
 
-	slide = e => {
+	originPageX = null;
 
+	originLeftHandleX = null;
+
+	slide = e => {
 		let pageX = e.pageX,
 			distance,
 			percent;
 
-		distance = (pageX < this.offsetX) ? 0 :
-			(pageX > (this.offsetX + this.width) ) ? this.width :
-				(pageX - this.offsetX);
+		distance = pageX - this.originPageX + this.originLeftHandleX;
 
-		percent = Math.ceil( (distance / this.width) * 100 );
+
+		if (distance < 0) {
+			distance = 0;
+		}
+
+		percent = Math.ceil(distance / this.bar.offsetWidth * 100);
+
+		if (percent > 100) {
+			percent = 100;
+		}
 
 		if (this.activeHandle === this.leftHandle) {
 			if (percent > this.state.rightHandlePercent) {
 				percent = this.state.rightHandlePercent;
 			}
-
 			this.setState({
 				leftHandlePercent: percent
 			});
-
 		} else if (this.activeHandle === this.rightHandle) {
 			if (percent < this.state.leftHandlePercent) {
 				percent = this.state.leftHandlePercent;
 			}
-
 			this.setState({
 				rightHandlePercent: percent
 			});
 		}
-
 	};
 
 	handleClick = e => {
