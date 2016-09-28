@@ -69,14 +69,18 @@ class Slider extends Component {
 		trackColor: PropTypes.string,
 		type: PropTypes.string,
 		min: PropTypes.number,
-		max: PropTypes.number
+		max: PropTypes.number,
+		from: PropTypes.number,
+		to: PropTypes.number
 	};
 
 	static defaultProps = {
 		disabled: false,
 		min: 0,
 		max: 100,
-		type: 'normal'
+		type: 'normal',
+		from: 0,
+		to: 100
 	};
 
 	state = {
@@ -160,7 +164,8 @@ class Slider extends Component {
 				percent = this.state.rightHandlePercent;
 			}
 			this.setState({
-				leftHandlePercent: percent
+				leftHandlePercent: percent,
+				leftHndleValue: Math.ceil(90 * percent / 100)
 			});
 		} else if (this.activeHandle === this.rightHandle) {
 			if (percent < this.state.leftHandlePercent) {
@@ -208,7 +213,7 @@ class Slider extends Component {
 						onMouseUp={this.handleMouseUp}
 					>
 						<div className={css(styles.leftHandleTip)}>
-							{this.state.leftHandlePercent}
+							{this.state.leftHndleValue}
 						</div>
 					</div>
 					<div
