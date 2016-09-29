@@ -8,6 +8,6 @@ import Slider from './src/Slider.js';
 
 ReactDOM.render(
 	<div>
-		<Slider min={10} max={90} />
+		<Slider from={20} to={80} />
 	</div>, document.getElementById('content')
 );

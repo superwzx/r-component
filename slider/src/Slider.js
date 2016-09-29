@@ -76,17 +76,16 @@ class Slider extends Component {
 
 	static defaultProps = {
 		disabled: false,
-		min: 0,
-		max: 100,
 		type: 'normal',
 		from: 0,
 		to: 100
 	};
 
 	state = {
-		percent: 0,
-		leftHandlePercent: this.props.min,
-		rightHandlePercent: this.props.max
+		leftHandlePercent: 0,
+		rightHandlePercent: 100,
+		leftHandleValue: this.props.from,
+		rightHandleValue: this.props.to
 	};
 
 	componentDidMount () {
@@ -146,6 +145,8 @@ class Slider extends Component {
 			distance,
 			percent;
 
+		const value = this.props.to - this.props.from;
+
 		distance = pageX - this.originPageX + this.originLeftHandleX;
 
 
@@ -165,14 +166,15 @@ class Slider extends Component {
 			}
 			this.setState({
 				leftHandlePercent: percent,
-				leftHndleValue: Math.ceil(90 * percent / 100)
+				leftHandleValue: Math.ceil(value * percent / 100 + this.props.from)
 			});
 		} else if (this.activeHandle === this.rightHandle) {
 			if (percent < this.state.leftHandlePercent) {
 				percent = this.state.leftHandlePercent;
 			}
 			this.setState({
-				rightHandlePercent: percent
+				rightHandlePercent: percent,
+				rightHandleValue: Math.ceil(value * percent / 100 + this.props.from)
 			});
 		}
 	};
@@ -213,7 +215,7 @@ class Slider extends Component {
 						onMouseUp={this.handleMouseUp}
 					>
 						<div className={css(styles.leftHandleTip)}>
-							{this.state.leftHndleValue}
+							{this.state.leftHandleValue}
 						</div>
 					</div>
 					<div
@@ -223,7 +225,7 @@ class Slider extends Component {
 						onMouseUp={this.handleMouseUp}
 					>
 						<div  className={css(styles.rightHandleTip)}>
-							{this.state.rightHandlePercent}
+							{this.state.rightHandleValue}
 						</div>
 					</div>
 				</div>
