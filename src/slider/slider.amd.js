@@ -98,7 +98,7 @@ require(['react'], function (React) {
 				<div
 					ref={ function(node) {this.bar = node} }
 					onClick={this.handleClick}
-				    className="slider-bar"
+				    className="sliderBar"
 				>
 					<div
 						className="track"
