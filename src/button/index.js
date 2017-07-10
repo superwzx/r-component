@@ -11,7 +11,7 @@ const config = {
 ReactDOM.render(
 	(
         <div>
-            <Buttons className="button" size="lg" color="primary" custom={config} disabled={false} mouseUp={test}>
+            <Buttons className="button" size="lg" color="primary" custom={config} disabled={false} click={wait}>
                 <Icon content="ion-ionic" color="white" gap="0 5px 0 0" />home
             </Buttons>
         </div>
@@ -19,7 +19,10 @@ ReactDOM.render(
 	document.getElementById('haha')
 );
 
-function test () {
-    alert(111);
+function wait () {
+    return new Promise(function(resolve, reject) {
+        setTimeout(function () {
+            resolve();
+        }, 3000);
+    });
 }
-
