@@ -3,14 +3,14 @@
  */
 
 
-import React from 'react'
-import ReactDOM from 'react-dom'
+import React from 'react';
+import ReactDOM from 'react-dom';
 import {
     BrowserRouter as Router,
     Route,
     Link
 } from 'react-router-dom'
-import Slider from '../src/slider/src/Slider.js';
+import {Slider} from '../src/slider';
 
 // var Tabs = require('./src/Tabs');
 // var TabPanel = require('./src/TabPanel');
@@ -20,7 +20,7 @@ const Example = () => (
         <div>
             <ul>
                 <li><Link to="/">Home</Link></li>
-                <li><Link to="/tabs">Tabs</Link></li>
+                <li><Link to="/tabs">Tab</Link></li>
                 <li><Link to="/slider">Slider</Link></li>
             </ul>
             <Route exact path="/" component={Home}/>

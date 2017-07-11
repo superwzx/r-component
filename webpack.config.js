@@ -3,7 +3,7 @@
  */
 
 module.exports = {
-    entry: "./index.js",
+    entry: "./examples/index.js",
     output: {
         path: __dirname,
         filename: "bundle.js"
@@ -12,5 +12,10 @@ module.exports = {
         rules: [
             {test: /\.js$/, use: "babel-loader"}
         ]
+    },
+    devServer: {
+        contentBase: "./examples",
+        compress: true,
+        port: 9000
     }
 };

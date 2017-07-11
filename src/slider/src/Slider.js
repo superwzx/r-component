@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
 	}
 });
 
-class Slider extends Component {
+export class Slider extends Component {
 
 	static propTypes = {
 		barColor: PropTypes.string,
@@ -233,5 +233,3 @@ class Slider extends Component {
 		)
 	}
 }
-
-export default Slider;
