@@ -1,63 +1,55 @@
 
 
-var React = require('react');
-var Tab = require('./Tab');
+import React, { Component, PropTypes } from 'react';
+import { Tab } from './Tab';
 
 
-var TabList = React.createClass({
+export class TabList extends Component {
 
-	getInitialState: function () {
-		var arr = [],
-			currentIndex = this.props.currentIndex;
-		this.props.panels.forEach(function (item) {
-			arr.push({
-				tabIndex: item.props.tabIndex,
-				tab: item.props.tab,
-				active: item.props.tabIndex == currentIndex
-			});
+	static propTypes = {
+		currentIndex: PropTypes.string
+	};
+
+	state = {
+		list: this.props.panels.map( item => ({
+			tabIndex: item.props.tabIndex,
+			tab: item.props.tab,
+			active: item.props.tabIndex === this.props.currentIndex
+		}))
+	};
+
+  /**
+	 * switch tab nav
+   * @param id
+   */
+	switch (id) {
+		let newList = this.props.list.map( item => {
+			if (item.tabIndex === id)
+				item.active = true;
+			return item;
 		});
-		return {
-			list: arr
-		}
-	},
-
-	switch: function (id) {
-		var arr = [];
-		this.state.list.forEach(function (item) {
-			if (item.tabIndex == id) {
-				arr.push({
-					tabIndex: item.tabIndex,
-					tab: item.tab,
-					active: true
-				})
-			} else {
-				arr.push({
-					tabIndex: item.tabIndex,
-					tab: item.tab,
-					active: false
-				})
-			}
-		});
-
 		this.setState({
-			list: arr
+			list: newList
 		});
 
 		this.props.switchTab(id);
-	},
+	}
 
-	render: function () {
 
+	render () {
 		return (
 			<div className="tab-list">
 				{
-					this.state.list.map(function(item) {
-						return <Tab tabIndex={item.tabIndex} tab={item.tab} active={item.active} switch={this.switch} />
-					}.bind(this))
+					this.state.list.map(item =>
+						<Tab
+							tabIndex={item.tabIndex}
+							tab={item.tab}
+							active={item.active}
+							switch={this.switch}
+						/>
+					)
 				}
 			</div>
 		)
 	}
-});
-
-module.exports = TabList;
+}

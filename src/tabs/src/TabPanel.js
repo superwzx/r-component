@@ -1,22 +1,20 @@
 
 
-	var React = require('react');
+import React, { Component, PropTypes } from 'react';
 
-	var TabPanel = React.createClass({
+export class TabPanel extends Component {
 
-		getInitialState: function () {
-			return {
-				//tabIndex: this.props.currentIndex
-			}
-		},
+	static propTypes = {
+		tabIndex: PropTypes.string,
+		currentIndex: PropTypes.string
+	}
 
-		render: function () {
-			return (
-				<div className={this.props.tabIndex == this.props.currentIndex ? 'active' : ''}>
-					{this.props.children}
-				</div>
-			)
-		}
-	})
+	render() {
+		return (
+			<div className={this.props.tabIndex === this.props.currentIndex ? 'active' : ''}>
+				{this.props.children}
+			</div>
+		)
+	}
 
-	module.exports = TabPanel;
+}

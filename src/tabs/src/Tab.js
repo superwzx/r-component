@@ -1,30 +1,42 @@
 
+import React, {Component, PropTypes} from 'react';
 
-var React = require('react');
-
-
-var Tab = React.createClass({
-
-	getInitialState: function () {
+export class Tab extends Component {
+	getInitialState () {
 		return {
 			tabIndex: this.props.tabIndex,
 			tab: this.props.tab,
 			active: this.props.active
 		}
-	},
+	}
 
-	componentWillReceiveProps: function (nextProps) {
+	static propTypes = {
+		tabIndex: PropTypes.string,
+		tab: PropTypes.string,
+		active: this.props.string
+	};
+
+	static defaultProps = {
+
+	};
+
+	state = {
+		tabIndex: this.props.tabIndex,
+		tab: this.props.tab,
+		active: this.props.active
+	};
+
+	componentWillReceiveProps (nextProps) {
 		this.setState({
 			active: nextProps.active
 		});
-	},
+	}
 
-	switch: function () {
-		console.log(this.state.tabIndex)
+	switch () {
 		this.props.switch(this.state.tabIndex);
-	},
+	}
 
-	render: function () {
+	render () {
 		return (
 			<a
 				id={this.props.tabIndex}
@@ -35,6 +47,4 @@ var Tab = React.createClass({
 			</a>
 		)
 	}
-});
-
-module.exports = Tab;
+}

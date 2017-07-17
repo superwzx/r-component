@@ -1,48 +1,49 @@
 
 
+import React, { Component, PropTypes } from 'react';
 
-var React = require('react');
+import { TabList } from './TabList';
 
-var TabList = require('./TabList');
+export class Tabs extends Component {
 
-var Tabs = React.createClass({
-	propTypes: {
+	static propTypes = {
+		currentIndex: PropTypes.string
+	};
 
-	},
+	state = {
+		currentIndex: this.props.currentIndex
+	};
 
-	getInitialState: function () {
-		return {
-			currentIndex: this.props.currentIndex
-		}
-	},
+  /**
+	 * set
+   * @returns {Array}
+   */
+  setTabPanels () {
+		let newChildren = [];
+		let currentIndex = this.state.currentIndex;
 
-	getTabPanels: function () {
-		var newChildren = [];
-
-		var currentIndex = this.state.currentIndex;
-
-		React.Children.forEach(this.props.children, function (child) {
+		React.Children.forEach(this.props.children, child => {
 			newChildren.push( React.cloneElement(child, {currentIndex: currentIndex}) );
 		});
 
 		return newChildren;
-	},
+	}
 
-	switchTab: function (index) {
+  switchTab (index) {
 		this.setState({
 			currentIndex: index
-		})
-	},
+		});
+	}
 
-	render: function () {
-		
-		var tabPanels = this.getTabPanels();
+  render () {
+
+		var tabPanels = this.setTabPanels();
 		var contents = [
 			(
 				<TabList
 					currentIndex={this.props.currentIndex}
 					panels={this.props.children}
-				    switchTab={this.switchTab}
+					switchTab={this.switchTab}
 				/>
 			),
 			(
@@ -58,6 +59,5 @@ var Tabs = React.createClass({
 			</div>
 		)
 	}
-});
 
-module.exports = Tabs;
+}

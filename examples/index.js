@@ -12,8 +12,12 @@ import {
 } from 'react-router-dom'
 import {Slider} from '../src/slider';
 
-// var Tabs = require('./src/Tabs');
-// var TabPanel = require('./src/TabPanel');
+import {
+  Tabs,
+  TabPanel
+} from '../src/tabs';
+
+
 
 const Example = () => (
     <Router>
@@ -38,7 +42,11 @@ const Home = () => (
 
 const TabComponent = () => (
     <div>
-
+      {/*<Tabs currentIndex="1">*/}
+        {/*<TabPanel tab='tab 1' tabIndex="1">first</TabPanel>*/}
+        {/*<TabPanel tab='tab 2' tabIndex="2">second</TabPanel>*/}
+        {/*<TabPanel tab='tab 3' tabIndex="3">third</TabPanel>*/}
+      {/*</Tabs>*/}
     </div>
 )
 
